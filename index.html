@@ -1,0 +1,2250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FINORA — Plataforma Inteligente de Crédito y Cartera</title>
+  <meta name="description" content="Plataforma integral fintech para originación, scoring, desembolso, recaudo, conciliación y gestión de cartera de microcréditos en Colombia.">
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="app-container">
+  
+  <!-- Mobile Sidebar Backdrop Overlay -->
+  <div class="sidebar-mobile-backdrop" id="sidebar-mobile-backdrop" onclick="App.toggleSidebar();"></div>
+
+  <!-- SIDEBAR NAVIGATION -->
+  <aside class="sidebar" id="app-sidebar">
+    <!-- Brand Header -->
+    <div class="sidebar-brand">
+      <a href="#" class="brand-logo-wrap" id="brand-logo-btn" onclick="App.handleBrandClick(event);" title="FINORA — Inicio">
+        <div class="brand-symbol">F</div>
+        <div class="brand-text">
+          <span class="brand-name">FINORA</span>
+          <span class="brand-tagline">Crédito & Cartera</span>
+        </div>
+      </a>
+      <button class="btn-toggle-sidebar" id="btn-collapse-sidebar" title="Colapsar o expandir menú lateral">
+        <i data-lucide="chevron-left"></i>
+      </button>
+      <button class="mobile-sidebar-close-btn" id="btn-close-mobile-sidebar" onclick="App.toggleSidebar();" title="Cerrar menú">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+
+    <!-- Navigation List -->
+    <div class="sidebar-content">
+      <div>
+        <div class="nav-group-label">Plataforma Financiera</div>
+        <ul class="nav-list">
+          <li>
+            <button class="nav-link active" data-view="overview">
+              <i data-lucide="layout-dashboard"></i>
+              <span>Overview</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-link" data-view="clientes">
+              <i data-lucide="users"></i>
+              <span>Clientes</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-link" data-view="solicitudes">
+              <i data-lucide="file-text"></i>
+              <span>Solicitudes</span>
+              <span class="nav-badge danger" id="sidebar-solicitudes-badge">23</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-link" data-view="creditos">
+              <i data-lucide="credit-card"></i>
+              <span>Créditos</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-link" data-view="cartera">
+              <i data-lucide="pie-chart"></i>
+              <span>Cartera</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-link" data-view="recaudos">
+              <i data-lucide="arrow-down-left"></i>
+              <span>Recaudos</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-link" data-view="conciliacion">
+              <i data-lucide="scale"></i>
+              <span>Conciliación</span>
+              <span class="nav-badge" id="sidebar-conciliacion-badge">8</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-link" data-view="desembolsos">
+              <i data-lucide="send"></i>
+              <span>Desembolsos</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-link" data-view="reportes">
+              <i data-lucide="bar-chart-3"></i>
+              <span>Reportes</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="nav-group-label">Configuración & Soporte</div>
+        <ul class="nav-list">
+          <li>
+            <button class="nav-link" data-view="configuracion">
+              <i data-lucide="sliders"></i>
+              <span>Configuración</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-link" onclick="App.showHelpModal();">
+              <i data-lucide="help-circle"></i>
+              <span>Ayuda y Soporte</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Sidebar Footer -->
+    <div class="sidebar-footer">
+      <button class="portal-switch-btn" id="btn-toggle-portal" onclick="App.togglePortalView();">
+        <i data-lucide="smartphone"></i>
+        <span id="portal-switch-label">Ver Portal Cliente (Carlos R.)</span>
+      </button>
+
+      <div class="user-snippet" id="sidebar-user-trigger" onclick="App.toggleUserMenu();">
+        <div class="user-avatar-wrap">
+          <div class="user-avatar">ML</div>
+          <span class="status-indicator" title="Usuario en línea"></span>
+        </div>
+        <div class="user-info">
+          <span class="user-name">Mariana López</span>
+          <span class="user-role"><i data-lucide="shield-check" style="width:12px;height:12px;color:var(--secondary)"></i> Administrador</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN WRAPPER -->
+  <main class="main-wrapper">
+    <!-- TOP HEADER -->
+    <header class="top-header">
+      <div class="header-left">
+        <button class="sidebar-toggle-header-btn" id="header-sidebar-toggle" title="Mostrar u ocultar menú lateral">
+          <i data-lucide="panel-left"></i>
+        </button>
+        
+        <div class="breadcrumb-nav">
+          <a href="#" onclick="App.navigateTo('overview'); return false;">Inicio</a>
+          <span class="breadcrumb-separator">/</span>
+          <span class="breadcrumb-current" id="header-breadcrumb">Overview</span>
+        </div>
+
+        <div class="org-badge" title="Entidad financiera activa">
+          <div class="org-flag"></div>
+          <span>Finora Colombia</span>
+        </div>
+      </div>
+
+      <div class="header-center">
+        <div class="search-bar">
+          <i data-lucide="search"></i>
+          <input type="text" id="global-search-input" placeholder="Buscar cliente, crédito o transacción (Ej: Carlos, FN-10492)..." onkeyup="App.handleGlobalSearch(this.value)">
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div class="header-meta">
+          <div class="security-badge" title="Cifrado TLS 1.3 de extremo a extremo">
+            <i data-lucide="lock"></i>
+            <span>Datos protegidos</span>
+          </div>
+          <div class="sync-status" title="Sincronización bancaria en tiempo real">
+            <span>Actualizado hace 2 min</span>
+          </div>
+        </div>
+
+        <button class="icon-button" id="btn-notifications" onclick="App.toggleNotificationsPopover();" title="Notificaciones">
+          <i data-lucide="bell"></i>
+          <span class="badge-dot"></span>
+        </button>
+
+        <button class="user-menu-trigger" onclick="App.toggleUserMenu();">
+          <div class="user-avatar-wrap">
+            <div class="user-avatar" style="width:34px;height:34px;">ML</div>
+          </div>
+          <div class="user-menu-text">
+            <div class="user-menu-name">Mariana López</div>
+            <div class="user-menu-badge">Administrador</div>
+          </div>
+          <i data-lucide="chevron-down" style="width:14px;height:14px;color:var(--text-muted);"></i>
+        </button>
+
+        <!-- Dropdown Menu -->
+        <div class="dropdown-menu" id="user-dropdown">
+          <div style="padding: 8px 12px; border-bottom: 1px solid var(--border); margin-bottom: 4px;">
+            <div style="font-weight:700; color:var(--text-main); font-size:0.86rem;">Mariana López</div>
+            <div style="color:var(--text-muted); font-size:0.75rem;">mariana.lopez@finora.co</div>
+          </div>
+          <button class="dropdown-item" onclick="App.navigateTo('configuracion'); App.closeDropdowns();">
+            <i data-lucide="settings" style="width:15px;height:15px;"></i>
+            <span>Parámetros de Riesgo</span>
+          </button>
+          <button class="dropdown-item" onclick="App.togglePortalView(); App.closeDropdowns();">
+            <i data-lucide="smartphone" style="width:15px;height:15px;"></i>
+            <span>Simular App Cliente</span>
+          </button>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item" style="color: var(--danger);" onclick="App.showToast('Sesión segura activa en Finora Colombia', 'info'); App.closeDropdowns();">
+            <i data-lucide="log-out" style="width:15px;height:15px;"></i>
+            <span>Cerrar Sesión</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- CONTENT BODY (SPA VIEWS) -->
+    <div class="content-body">
+
+      <!-- ================================================================
+           VIEW 1: OVERVIEW / DASHBOARD
+           ================================================================ -->
+      <section class="page-view active" id="view-overview">
+        <div class="page-title-row">
+          <div>
+            <h1 class="page-title">Buenos días, Mariana</h1>
+            <p class="page-subtitle">Este es el estado de tu operación financiera hoy en microcréditos.</p>
+          </div>
+          <div class="page-actions">
+            <div class="period-selector">
+              <button class="period-btn" onclick="App.changePeriod('hoy', this)">Hoy</button>
+              <button class="period-btn" onclick="App.changePeriod('7d', this)">7 días</button>
+              <button class="period-btn active" onclick="App.changePeriod('30d', this)">30 días</button>
+              <button class="period-btn" onclick="App.changePeriod('year', this)">Este año</button>
+            </div>
+            <button class="btn btn-outline" onclick="App.exportReportCSV('overview')">
+              <i data-lucide="download"></i>
+              <span>Exportar CSV</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- CICLO INTEGRAL DEL CRÉDITO -->
+        <div class="credit-lifecycle-card">
+          <div class="lifecycle-header">
+            <div class="lifecycle-title">
+              <i data-lucide="workflow" style="width:16px;height:16px;"></i>
+              <span>Ciclo Integral de Crédito & Cobranza — Trazabilidad End-to-End</span>
+            </div>
+            <span style="font-size:0.72rem; color:var(--text-muted);">Haz clic en cualquier fase para ir al módulo</span>
+          </div>
+          <div class="lifecycle-steps">
+            <div class="lifecycle-step completed" onclick="App.navigateTo('solicitudes')">
+              <div class="step-connector"></div>
+              <div class="step-node"><i data-lucide="check" style="width:14px;height:14px;"></i></div>
+              <div class="step-name">1. Originación</div>
+            </div>
+            <div class="lifecycle-step completed" onclick="App.navigateTo('solicitudes')">
+              <div class="step-connector"></div>
+              <div class="step-node"><i data-lucide="check" style="width:14px;height:14px;"></i></div>
+              <div class="step-name">2. Scoring</div>
+            </div>
+            <div class="lifecycle-step completed" onclick="App.navigateTo('solicitudes')">
+              <div class="step-connector"></div>
+              <div class="step-node"><i data-lucide="check" style="width:14px;height:14px;"></i></div>
+              <div class="step-name">3. Aprobación</div>
+            </div>
+            <div class="lifecycle-step active" onclick="App.navigateTo('desembolsos')">
+              <div class="step-connector"></div>
+              <div class="step-node">4</div>
+              <div class="step-name">4. Desembolso</div>
+            </div>
+            <div class="lifecycle-step" onclick="App.navigateTo('recaudos')">
+              <div class="step-connector"></div>
+              <div class="step-node">5</div>
+              <div class="step-name">5. Recaudo</div>
+            </div>
+            <div class="lifecycle-step" onclick="App.navigateTo('conciliacion')">
+              <div class="step-connector"></div>
+              <div class="step-node">6</div>
+              <div class="step-name">6. Conciliación</div>
+            </div>
+            <div class="lifecycle-step" onclick="App.navigateTo('cartera')">
+              <div class="step-connector"></div>
+              <div class="step-node">7</div>
+              <div class="step-name">7. Cartera</div>
+            </div>
+            <div class="lifecycle-step" onclick="App.navigateTo('cartera')">
+              <div class="step-connector"></div>
+              <div class="step-node">8</div>
+              <div class="step-name">8. Cobranza</div>
+            </div>
+            <div class="lifecycle-step" onclick="App.navigateTo('reportes')">
+              <div class="step-node">9</div>
+              <div class="step-name">9. Analítica</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 KPIS PRINCIPALES -->
+        <div class="kpi-grid-4">
+          <!-- KPI 1 -->
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <span class="kpi-label">Cartera activa</span>
+              <div class="kpi-icon-wrap primary">
+                <i data-lucide="briefcase"></i>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpi-cartera-activa">$18.450.000.000</div>
+            <div class="kpi-footer">
+              <div class="kpi-trend positive">
+                <i data-lucide="trending-up" style="width:13px;height:13px;"></i>
+                <span>+8.4%</span>
+              </div>
+              <span class="kpi-comparison">vs. periodo anterior</span>
+              <canvas class="kpi-sparkline" id="sparkline-cartera"></canvas>
+            </div>
+          </div>
+
+          <!-- KPI 2 -->
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <span class="kpi-label">Capital colocado</span>
+              <div class="kpi-icon-wrap secondary">
+                <i data-lucide="layers"></i>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpi-capital-colocado">$27.830.000.000</div>
+            <div class="kpi-footer">
+              <div class="kpi-trend positive">
+                <i data-lucide="trending-up" style="width:13px;height:13px;"></i>
+                <span>+12.7%</span>
+              </div>
+              <span class="kpi-comparison">vs. periodo anterior</span>
+              <canvas class="kpi-sparkline" id="sparkline-capital"></canvas>
+            </div>
+          </div>
+
+          <!-- KPI 3 -->
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <span class="kpi-label">Índice de mora</span>
+              <div class="kpi-icon-wrap warning">
+                <i data-lucide="alert-triangle"></i>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpi-mora">4,82%</div>
+            <div class="kpi-footer">
+              <div class="kpi-trend positive" title="Reducción positiva del riesgo crediticio">
+                <i data-lucide="trending-down" style="width:13px;height:13px;"></i>
+                <span>-0,64%</span>
+              </div>
+              <span class="kpi-comparison">vs. periodo anterior</span>
+              <canvas class="kpi-sparkline" id="sparkline-mora"></canvas>
+            </div>
+          </div>
+
+          <!-- KPI 4 -->
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <span class="kpi-label">Ingresos por intereses</span>
+              <div class="kpi-icon-wrap success">
+                <i data-lucide="dollar-sign"></i>
+              </div>
+            </div>
+            <div class="kpi-value" id="kpi-intereses">$2.184.500.000</div>
+            <div class="kpi-footer">
+              <div class="kpi-trend positive">
+                <i data-lucide="trending-up" style="width:13px;height:13px;"></i>
+                <span>+14,2%</span>
+              </div>
+              <span class="kpi-comparison">vs. periodo anterior</span>
+              <canvas class="kpi-sparkline" id="sparkline-intereses"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- GRÁFICO PRINCIPAL & DISTRIBUCIÓN -->
+        <div class="charts-grid-main">
+          <!-- Gráfico de comportamiento -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Comportamiento de cartera</h3>
+                <p class="card-subtitle">Evolución mensual consolidada (Ene - Ago)</p>
+              </div>
+              <div class="chart-filters" id="overview-chart-chips">
+                <button class="chart-chip active" data-metric="all" onclick="App.filterMainChart('all', this)">Todo</button>
+                <button class="chart-chip" data-metric="cartera" onclick="App.filterMainChart('cartera', this)">Cartera</button>
+                <button class="chart-chip" data-metric="capital" onclick="App.filterMainChart('capital', this)">Capital</button>
+                <button class="chart-chip" data-metric="recaudo" onclick="App.filterMainChart('recaudo', this)">Recaudo</button>
+              </div>
+            </div>
+            <div class="chart-container-wrap">
+              <canvas id="chart-main-overview"></canvas>
+            </div>
+          </div>
+
+          <!-- Gráfico Doughnut: Estado de cartera -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Estado de cartera</h3>
+                <p class="card-subtitle">Distribución por días de vencimiento</p>
+              </div>
+            </div>
+            <div class="doughnut-layout">
+              <div class="doughnut-wrap">
+                <canvas id="chart-doughnut-cartera"></canvas>
+                <div class="doughnut-center-text">
+                  <div class="doughnut-center-val">82%</div>
+                  <div class="doughnut-center-sub">Vigente</div>
+                </div>
+              </div>
+              <div class="doughnut-legend">
+                <div class="legend-item">
+                  <div class="legend-info">
+                    <span class="legend-dot" style="background:#16A34A;"></span>
+                    <span>Vigente (al día)</span>
+                  </div>
+                  <span class="legend-pct">82%</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-info">
+                    <span class="legend-dot" style="background:#F59E0B;"></span>
+                    <span>Mora 1–30 días</span>
+                  </div>
+                  <span class="legend-pct">9%</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-info">
+                    <span class="legend-dot" style="background:#F97316;"></span>
+                    <span>Mora 31–60 días</span>
+                  </div>
+                  <span class="legend-pct">5%</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-info">
+                    <span class="legend-dot" style="background:#DC2626;"></span>
+                    <span>Mora 60+ días</span>
+                  </div>
+                  <span class="legend-pct">4%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ALERTAS OPERATIVAS & ACTIVIDAD RECIENTE -->
+        <div class="overview-bottom-grid">
+          <!-- Alertas -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Requiere atención</h3>
+                <p class="card-subtitle">Alertas operativas prioritarias</p>
+              </div>
+              <span class="badge badge-warning">4 pendientes</span>
+            </div>
+            <div class="alerts-list">
+              <div class="alert-item-card">
+                <div class="alert-item-left">
+                  <div class="alert-icon warning">
+                    <i data-lucide="file-check"></i>
+                  </div>
+                  <div>
+                    <div class="alert-title">23 solicitudes pendientes</div>
+                    <div class="alert-desc">Requieren aprobación del comité</div>
+                  </div>
+                </div>
+                <button class="btn btn-sm btn-outline" onclick="App.navigateTo('solicitudes')">Revisar</button>
+              </div>
+
+              <div class="alert-item-card">
+                <div class="alert-item-left">
+                  <div class="alert-icon danger">
+                    <i data-lucide="git-pull-request"></i>
+                  </div>
+                  <div>
+                    <div class="alert-title">8 diferencias de conciliación</div>
+                    <div class="alert-desc">Discrepancias en extractos Bancolombia</div>
+                  </div>
+                </div>
+                <button class="btn btn-sm btn-outline" onclick="App.navigateTo('conciliacion')">Revisar</button>
+              </div>
+
+              <div class="alert-item-card">
+                <div class="alert-item-left">
+                  <div class="alert-icon info">
+                    <i data-lucide="arrow-down-circle"></i>
+                  </div>
+                  <div>
+                    <div class="alert-title">$184M en recaudos pendientes</div>
+                    <div class="alert-desc">Pagos procesados en pasarela PSE</div>
+                  </div>
+                </div>
+                <button class="btn btn-sm btn-outline" onclick="App.navigateTo('recaudos')">Revisar</button>
+              </div>
+
+              <div class="alert-item-card">
+                <div class="alert-item-left">
+                  <div class="alert-icon primary">
+                    <i data-lucide="calendar"></i>
+                  </div>
+                  <div>
+                    <div class="alert-title">42 créditos próximos a vencer</div>
+                    <div class="alert-desc">Vencimientos en las próximas 48 horas</div>
+                  </div>
+                </div>
+                <button class="btn btn-sm btn-outline" onclick="App.navigateTo('cartera')">Revisar</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Actividad Reciente -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Actividad reciente</h3>
+                <p class="card-subtitle">Transacciones y eventos en vivo</p>
+              </div>
+              <button class="btn btn-sm btn-outline" onclick="App.showToast('Auditoría completa sincronizada', 'info')">
+                <i data-lucide="history"></i>
+                <span>Ver registro de auditoría</span>
+              </button>
+            </div>
+            <div class="table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Fecha</th>
+                    <th>Operación</th>
+                    <th>Cliente</th>
+                    <th>Monto</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                  </tr>
+                </thead>
+                <tbody id="overview-recent-activity-tbody">
+                  <!-- Injected via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           VIEW 2: CLIENTES
+           ================================================================ -->
+      <section class="page-view" id="view-clientes">
+        <div class="page-title-row">
+          <div>
+            <h1 class="page-title">Gestión de Clientes</h1>
+            <p class="page-subtitle">Directorio crediticio de personas naturales y microempresarios.</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-primary" onclick="App.showToast('Formulario de vinculación rápida habilitado', 'info');">
+              <i data-lucide="user-plus"></i>
+              <span>Nuevo Cliente</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Clientes KPIs -->
+        <div class="kpi-grid-4">
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <span class="kpi-label">Clientes activos</span>
+              <div class="kpi-icon-wrap primary"><i data-lucide="users"></i></div>
+            </div>
+            <div class="kpi-value">4.820</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend positive">+5.2%</span>
+              <span class="kpi-comparison">Base total vinculada</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <span class="kpi-label">Nuevos este mes</span>
+              <div class="kpi-icon-wrap success"><i data-lucide="user-check"></i></div>
+            </div>
+            <div class="kpi-value">+312</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend positive">+14%</span>
+              <span class="kpi-comparison">Originados digitalmente</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <span class="kpi-label">Clientes con crédito activo</span>
+              <div class="kpi-icon-wrap secondary"><i data-lucide="credit-card"></i></div>
+            </div>
+            <div class="kpi-value">3.940</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend positive">81.7%</span>
+              <span class="kpi-comparison">Tasa de colocación activa</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <span class="kpi-label">Clientes en mora</span>
+              <div class="kpi-icon-wrap danger"><i data-lucide="user-x"></i></div>
+            </div>
+            <div class="kpi-value">194</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend positive" style="color:var(--success); background:var(--success-tint);">-12</span>
+              <span class="kpi-comparison">Reducción de morosos</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Clientes Table Card -->
+        <div class="card">
+          <div class="table-toolbar">
+            <div class="filter-group">
+              <button class="filter-tab-btn active" onclick="App.filterClientsByCity('Todas', this)">Todas las ciudades</button>
+              <button class="filter-tab-btn" onclick="App.filterClientsByCity('Bogotá', this)">Bogotá</button>
+              <button class="filter-tab-btn" onclick="App.filterClientsByCity('Medellín', this)">Medellín</button>
+              <button class="filter-tab-btn" onclick="App.filterClientsByCity('Cali', this)">Cali</button>
+              <button class="filter-tab-btn" onclick="App.filterClientsByCity('Barranquilla', this)">Barranquilla</button>
+              <button class="filter-tab-btn" onclick="App.filterClientsByCity('Bucaramanga', this)">Bucaramanga</button>
+            </div>
+            <div class="table-search-input">
+              <i data-lucide="search"></i>
+              <input type="text" id="search-clients-input" placeholder="Buscar cliente por nombre o CC..." onkeyup="App.searchClients(this.value)">
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Cliente</th>
+                  <th>Documento (CC)</th>
+                  <th>Ciudad</th>
+                  <th>Créditos Activos</th>
+                  <th>Cartera Pendiente</th>
+                  <th>Score</th>
+                  <th>Estado</th>
+                  <th>Último Pago</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody id="clients-table-tbody">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           VIEW 3: SOLICITUDES DE CRÉDITO & SCORING
+           ================================================================ -->
+      <section class="page-view" id="view-solicitudes">
+        <div class="page-title-row">
+          <div>
+            <h1 class="page-title">Solicitudes de Crédito</h1>
+            <p class="page-subtitle">Bandeja de originación y evaluación de riesgo crediticio automatizado.</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-outline" onclick="App.exportReportCSV('solicitudes')">
+              <i data-lucide="download"></i>
+              <span>Exportar</span>
+            </button>
+            <button class="btn btn-primary" onclick="App.simulateNewApplication();">
+              <i data-lucide="plus"></i>
+              <span>Simular Nueva Solicitud</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="table-toolbar">
+            <div class="filter-group">
+              <button class="filter-tab-btn active" onclick="App.filterSolicitudesByStatus('Todas', this)">Todas</button>
+              <button class="filter-tab-btn" onclick="App.filterSolicitudesByStatus('Nuevas', this)">Nuevas</button>
+              <button class="filter-tab-btn" onclick="App.filterSolicitudesByStatus('En revisión', this)">En análisis</button>
+              <button class="filter-tab-btn" onclick="App.filterSolicitudesByStatus('Aprobado', this)">Aprobadas</button>
+              <button class="filter-tab-btn" onclick="App.filterSolicitudesByStatus('Rechazado', this)">Rechazadas</button>
+              <button class="filter-tab-btn" onclick="App.filterSolicitudesByStatus('Pendiente', this)">Pendientes</button>
+            </div>
+            <div class="table-search-input">
+              <i data-lucide="search"></i>
+              <input type="text" id="search-solicitudes-input" placeholder="Buscar por cliente, CC o ID..." onkeyup="App.searchSolicitudes(this.value)">
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>ID Solicitud</th>
+                  <th>Cliente</th>
+                  <th>Canal / Origen</th>
+                  <th>Monto Solicitado</th>
+                  <th>Plazo</th>
+                  <th>Score Motor</th>
+                  <th>Ingresos Mensuales</th>
+                  <th>Estado</th>
+                  <th>Fecha</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody id="solicitudes-table-tbody">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           VIEW 4: CRÉDITOS
+           ================================================================ -->
+      <section class="page-view" id="view-creditos">
+        <div class="page-title-row">
+          <div>
+            <h1 class="page-title">Gestión de Créditos</h1>
+            <p class="page-subtitle">Control y seguimiento de obligaciones crediticias activas y finalizadas.</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-outline" onclick="App.exportReportCSV('creditos')">
+              <i data-lucide="download"></i>
+              <span>Exportar</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="kpi-grid-4">
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <span class="kpi-label">Créditos vigentes</span>
+              <div class="kpi-icon-wrap success"><i data-lucide="check-circle-2"></i></div>
+            </div>
+            <div class="kpi-value">3.240</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend positive">+9.1%</span>
+              <span class="kpi-comparison">Obligaciones al día</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <span class="kpi-label">Ticket promedio</span>
+              <div class="kpi-icon-wrap secondary"><i data-lucide="tag"></i></div>
+            </div>
+            <div class="kpi-value">$3.820.000</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend positive">+4.2%</span>
+              <span class="kpi-comparison">Monto promedio</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <span class="kpi-label">Tasa promedio (M.V.)</span>
+              <div class="kpi-icon-wrap primary"><i data-lucide="percent"></i></div>
+            </div>
+            <div class="kpi-value">2,15%</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend positive">Cumple usura</span>
+              <span class="kpi-comparison">Superfinanciera</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <span class="kpi-label">Créditos liquidados</span>
+              <div class="kpi-icon-wrap warning"><i data-lucide="archive"></i></div>
+            </div>
+            <div class="kpi-value">1.580</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend positive">100%</span>
+              <span class="kpi-comparison">Paz y salvo generado</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>No. Crédito</th>
+                  <th>Cliente</th>
+                  <th>Monto Inicial</th>
+                  <th>Saldo Capital</th>
+                  <th>Cuotas</th>
+                  <th>Próximo Vencimiento</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="creditos-table-tbody">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           VIEW 5: CARTERA & COBRANZA
+           ================================================================ -->
+      <section class="page-view" id="view-cartera">
+        <div class="page-title-row">
+          <div>
+            <h1 class="page-title">Gestión de Cartera</h1>
+            <p class="page-subtitle">Monitoreo de vencimientos, clasificación de riesgo y cobranza preventiva.</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-outline" onclick="App.exportReportCSV('cartera')">
+              <i data-lucide="download"></i>
+              <span>Exportar</span>
+            </button>
+            <button class="btn btn-primary" onclick="App.showToast('Campañas automáticas de cobranza por WhatsApp/SMS activas', 'success')">
+              <i data-lucide="send"></i>
+              <span>Disparar Recordatorios</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- KPIs Cartera -->
+        <div class="kpi-grid-4">
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <span class="kpi-label">Cartera total</span>
+              <div class="kpi-icon-wrap primary"><i data-lucide="briefcase"></i></div>
+            </div>
+            <div class="kpi-value">$18.450.000.000</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend positive">+8.4%</span>
+              <span class="kpi-comparison">Saldo insoluto</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <span class="kpi-label">Cartera vigente</span>
+              <div class="kpi-icon-wrap success"><i data-lucide="shield-check"></i></div>
+            </div>
+            <div class="kpi-value">$15.129.000.000</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend positive">82,0%</span>
+              <span class="kpi-comparison">Calificación A</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <span class="kpi-label">Cartera vencida</span>
+              <div class="kpi-icon-wrap danger"><i data-lucide="alert-octagon"></i></div>
+            </div>
+            <div class="kpi-value">$889.290.000</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend negative">4,82%</span>
+              <span class="kpi-comparison">Sobre cartera total</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <span class="kpi-label">Índice de cobertura</span>
+              <div class="kpi-icon-wrap secondary"><i data-lucide="shield"></i></div>
+            </div>
+            <div class="kpi-value">142,5%</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend positive">Óptimo</span>
+              <span class="kpi-comparison">Provisiones IFRS 9</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Distribución por días de mora chart -->
+        <div class="card" style="margin-bottom: 24px;">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Distribución por días de mora</h3>
+              <p class="card-subtitle">Estratificación de saldos vencidos en tramos de riesgo</p>
+            </div>
+          </div>
+          <div class="chart-container-wrap" style="height: 240px;">
+            <canvas id="chart-cartera-mora-bars"></canvas>
+          </div>
+        </div>
+
+        <!-- Tabla Cartera -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Detalle de créditos y cobranza</h3>
+              <p class="card-subtitle">Seguimiento por gestor y estado del crédito</p>
+            </div>
+          </div>
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Cliente</th>
+                  <th>Crédito</th>
+                  <th>Capital Pendiente</th>
+                  <th>Próxima Cuota</th>
+                  <th>Días Mora</th>
+                  <th>Estado</th>
+                  <th>Gestor Asignado</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody id="cartera-table-tbody">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           VIEW 6: RECAUDOS
+           ================================================================ -->
+      <section class="page-view" id="view-recaudos">
+        <div class="page-title-row">
+          <div>
+            <h1 class="page-title">Recaudos</h1>
+            <p class="page-subtitle">Ingreso de pagos en tiempo real mediante pasarelas y canales bancarios.</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-outline" onclick="App.exportReportCSV('recaudos')">
+              <i data-lucide="download"></i>
+              <span>Exportar</span>
+            </button>
+            <button class="btn btn-primary" onclick="App.showManualRecaudoModal();">
+              <i data-lucide="plus-circle"></i>
+              <span>Registrar Recaudo Manual</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Recaudos KPIs -->
+        <div class="kpi-grid-4">
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <span class="kpi-label">Recaudo de hoy</span>
+              <div class="kpi-icon-wrap success"><i data-lucide="arrow-down-left"></i></div>
+            </div>
+            <div class="kpi-value">$428.500.000</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend positive">184 pagos</span>
+              <span class="kpi-comparison">Ingresados hoy</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <span class="kpi-label">Meta diaria</span>
+              <div class="kpi-icon-wrap primary"><i data-lucide="target"></i></div>
+            </div>
+            <div class="kpi-value">$500.000.000</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend positive">Objetivo del día</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <span class="kpi-label">Cumplimiento</span>
+              <div class="kpi-icon-wrap secondary"><i data-lucide="percent"></i></div>
+            </div>
+            <div class="kpi-value">85,7%</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend positive">+3.2%</span>
+              <span class="kpi-comparison">vs. ayer misma hora</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <span class="kpi-label">Pagos pendientes</span>
+              <div class="kpi-icon-wrap warning"><i data-lucide="clock"></i></div>
+            </div>
+            <div class="kpi-value">124</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend negative">En tránsito</span>
+              <span class="kpi-comparison">Acreditación hoy</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chart Recaudos -->
+        <div class="card" style="margin-bottom: 24px;">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Curva de recaudo por hora (Hoy)</h3>
+              <p class="card-subtitle">Flujo horario comparado contra la meta proyectada</p>
+            </div>
+          </div>
+          <div class="chart-container-wrap" style="height: 240px;">
+            <canvas id="chart-recaudos-hourly"></canvas>
+          </div>
+        </div>
+
+        <!-- Tabla Recaudos -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Transacciones de recaudo</h3>
+              <p class="card-subtitle">Registro en tiempo real con pasarelas integradas</p>
+            </div>
+          </div>
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Hora</th>
+                  <th>Cliente</th>
+                  <th>Crédito</th>
+                  <th>Monto Pagado</th>
+                  <th>Método de Pago</th>
+                  <th>Estado</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody id="recaudos-table-tbody">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           VIEW 7: CONCILIACIÓN BANCARIA
+           ================================================================ -->
+      <section class="page-view" id="view-conciliacion">
+        <div class="page-title-row">
+          <div>
+            <h1 class="page-title">Conciliación Bancaria</h1>
+            <p class="page-subtitle">Compara automáticamente recaudos, dispersiones y movimientos bancarios en Colombia.</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-outline" onclick="App.exportReportCSV('conciliacion')">
+              <i data-lucide="download"></i>
+              <span>Exportar</span>
+            </button>
+            <button class="btn btn-primary" onclick="App.runAutoReconciliation();">
+              <i data-lucide="refresh-cw"></i>
+              <span>Ejecutar Auto-Conciliación</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Resumen de Conciliación -->
+        <div class="reconciliation-kpis">
+          <div class="kpi-card">
+            <span class="kpi-label">Recaudos del día</span>
+            <div class="kpi-value" style="font-size:1.3rem;">$428.500.000</div>
+            <span style="font-size:0.72rem; color:var(--text-muted);">Registrado en FINORA</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Movimientos bancarios</span>
+            <div class="kpi-value" style="font-size:1.3rem;">$426.800.000</div>
+            <span style="font-size:0.72rem; color:var(--text-muted);">Extractos API Bancolombia</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Conciliados</span>
+            <div class="kpi-value" style="font-size:1.3rem; color:var(--success);">$424.200.000</div>
+            <span style="font-size:0.72rem; color:var(--success-text); font-weight:700;">99,4% cuadre perfecto</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Pendientes</span>
+            <div class="kpi-value" style="font-size:1.3rem; color:var(--warning-text);">$2.600.000</div>
+            <span style="font-size:0.72rem; color:var(--text-muted);">En proceso de canje</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Diferencias</span>
+            <div class="kpi-value" style="font-size:1.3rem; color:var(--danger);">$1.700.000</div>
+            <span style="font-size:0.72rem; color:var(--danger-text); font-weight:700;">Requieren revisión</span>
+          </div>
+        </div>
+
+        <!-- Tabla de Conciliación -->
+        <div class="card">
+          <div class="table-toolbar">
+            <div class="filter-group">
+              <button class="filter-tab-btn active" onclick="App.filterReconciliationByStatus('Todos', this)">Todas las transacciones</button>
+              <button class="filter-tab-btn" onclick="App.filterReconciliationByStatus('CONCILIADO', this)">Conciliadas</button>
+              <button class="filter-tab-btn" onclick="App.filterReconciliationByStatus('PENDIENTE', this)">Pendientes</button>
+              <button class="filter-tab-btn" onclick="App.filterReconciliationByStatus('DIFERENCIA', this)">Con Diferencia</button>
+              <button class="filter-tab-btn" onclick="App.filterReconciliationByStatus('RECHAZADO', this)">Rechazadas</button>
+            </div>
+            <div class="table-search-input">
+              <i data-lucide="search"></i>
+              <input type="text" id="search-reconciliation-input" placeholder="Buscar por ID, Ref bancaria o Cliente..." onkeyup="App.searchReconciliation(this.value)">
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>ID Transacción</th>
+                  <th>Fecha</th>
+                  <th>Tipo</th>
+                  <th>Cliente</th>
+                  <th>Referencia Bancaria</th>
+                  <th>Monto Esperado</th>
+                  <th>Monto Recibido</th>
+                  <th>Diferencia</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="conciliacion-table-tbody">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           VIEW 8: DESEMBOLSOS
+           ================================================================ -->
+      <section class="page-view" id="view-desembolsos">
+        <div class="page-title-row">
+          <div>
+            <h1 class="page-title">Desembolsos</h1>
+            <p class="page-subtitle">Dispersión masiva de capital a cuentas bancarias y billeteras electrónicas.</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-outline" onclick="App.exportReportCSV('desembolsos')">
+              <i data-lucide="download"></i>
+              <span>Exportar</span>
+            </button>
+            <button class="btn btn-primary" onclick="App.showDisperseAllModal();">
+              <i data-lucide="send"></i>
+              <span>Dispersar Lote Pendiente</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="kpi-grid-4">
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <span class="kpi-label">Por desembolsar</span>
+              <div class="kpi-icon-wrap warning"><i data-lucide="clock"></i></div>
+            </div>
+            <div class="kpi-value">14 créditos</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend positive">$52.800.000</span>
+              <span class="kpi-comparison">Pendiente dispersión</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <span class="kpi-label">Procesados hoy</span>
+              <div class="kpi-icon-wrap success"><i data-lucide="check-circle-2"></i></div>
+            </div>
+            <div class="kpi-value">38 créditos</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend positive">100% ACH</span>
+              <span class="kpi-comparison">En tiempo real</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <span class="kpi-label">Valor desembolsado hoy</span>
+              <div class="kpi-icon-wrap primary"><i data-lucide="dollar-sign"></i></div>
+            </div>
+            <div class="kpi-value">$142.600.000</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend positive">+18%</span>
+              <span class="kpi-comparison">vs. promedio diario</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card-top">
+              <span class="kpi-label">Dispersiones fallidas</span>
+              <div class="kpi-icon-wrap danger"><i data-lucide="x-circle"></i></div>
+            </div>
+            <div class="kpi-value">1</div>
+            <div class="kpi-footer">
+              <span class="kpi-trend negative">Cuenta rechazada</span>
+              <span class="kpi-comparison">Nequi inactivo</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Cliente</th>
+                  <th>Crédito</th>
+                  <th>Monto a Girar</th>
+                  <th>Banco / Canal</th>
+                  <th>Tipo y No. Cuenta</th>
+                  <th>Fecha de Programación</th>
+                  <th>Estado</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody id="desembolsos-table-tbody">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           VIEW 9: REPORTES & ANALÍTICA
+           ================================================================ -->
+      <section class="page-view" id="view-reportes">
+        <div class="page-title-row">
+          <div>
+            <h1 class="page-title">Reportes y Analítica</h1>
+            <p class="page-subtitle">Generación de informes regulatorios, financieros y operativos para comités y auditorías.</p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom: 24px;">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Filtros de generación</h3>
+              <p class="card-subtitle">Segmenta la información antes de generar el informe</p>
+            </div>
+          </div>
+          <div class="report-filters-grid">
+            <div class="form-group">
+              <label class="form-label">Periodo</label>
+              <select class="form-select" id="rep-filter-period">
+                <option>Mes actual (Septiembre 2026)</option>
+                <option>Último trimestre (Q2 2026)</option>
+                <option>Año completo 2026</option>
+                <option>Personalizado</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Producto de crédito</label>
+              <select class="form-select" id="rep-filter-product">
+                <option>Todos los microcréditos</option>
+                <option>Microcrédito Productivo</option>
+                <option>Crédito de Libre Inversión Digital</option>
+                <option>Crédito Rotativo</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Ciudad / Región</label>
+              <select class="form-select" id="rep-filter-city">
+                <option>Nacional (Todas)</option>
+                <option>Bogotá D.C.</option>
+                <option>Medellín / Antioquia</option>
+                <option>Cali / Valle</option>
+                <option>Barranquilla / Atlántico</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Gestor / Responsable</label>
+              <select class="form-select" id="rep-filter-manager">
+                <option>Todos los gestores</option>
+                <option>Mariana López</option>
+                <option>Carlos Mendoza</option>
+                <option>Andrea Salazar</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="report-cards-grid">
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+              <div class="kpi-icon-wrap primary"><i data-lucide="pie-chart"></i></div>
+              <span class="badge badge-primary">Cartera</span>
+            </div>
+            <h3 class="card-title" style="margin-bottom:6px;">Reporte de Cartera</h3>
+            <p class="card-subtitle" style="margin-bottom:18px;">Balance detallado de saldos de capital, intereses devengados y estado por cliente.</p>
+            <button class="btn btn-outline" style="width:100%;" onclick="App.generateReportFile('Reporte_Cartera_Finora')">
+              <i data-lucide="file-text"></i>
+              <span>Generar Reporte</span>
+            </button>
+          </div>
+
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+              <div class="kpi-icon-wrap danger"><i data-lucide="alert-triangle"></i></div>
+              <span class="badge badge-danger">Riesgo</span>
+            </div>
+            <h3 class="card-title" style="margin-bottom:6px;">Reporte de Mora</h3>
+            <p class="card-subtitle" style="margin-bottom:18px;">Estratificación por edades de mora (1-30, 31-60, 60+), cosechas de crédito y provisiones.</p>
+            <button class="btn btn-outline" style="width:100%;" onclick="App.generateReportFile('Reporte_Mora_Cosechas_Finora')">
+              <i data-lucide="file-text"></i>
+              <span>Generar Reporte</span>
+            </button>
+          </div>
+
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+              <div class="kpi-icon-wrap success"><i data-lucide="arrow-down-left"></i></div>
+              <span class="badge badge-success">Ingresos</span>
+            </div>
+            <h3 class="card-title" style="margin-bottom:6px;">Reporte de Recaudos</h3>
+            <p class="card-subtitle" style="margin-bottom:18px;">Consolidado de pagos recibidos clasificados por canal (PSE, Nequi, transferencias).</p>
+            <button class="btn btn-outline" style="width:100%;" onclick="App.generateReportFile('Reporte_Recaudos_Finora')">
+              <i data-lucide="file-text"></i>
+              <span>Generar Reporte</span>
+            </button>
+          </div>
+
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+              <div class="kpi-icon-wrap secondary"><i data-lucide="send"></i></div>
+              <span class="badge badge-neutral">Operaciones</span>
+            </div>
+            <h3 class="card-title" style="margin-bottom:6px;">Reporte de Desembolsos</h3>
+            <p class="card-subtitle" style="margin-bottom:18px;">Dispersiones ACH efectuadas, tiempos de procesamiento bancario y dispersiones fallidas.</p>
+            <button class="btn btn-outline" style="width:100%;" onclick="App.generateReportFile('Reporte_Desembolsos_ACH')">
+              <i data-lucide="file-text"></i>
+              <span>Generar Reporte</span>
+            </button>
+          </div>
+
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+              <div class="kpi-icon-wrap primary"><i data-lucide="trending-up"></i></div>
+              <span class="badge badge-primary">Financiero</span>
+            </div>
+            <h3 class="card-title" style="margin-bottom:6px;">Reporte de Rentabilidad</h3>
+            <p class="card-subtitle" style="margin-bottom:18px;">Márgenes de intermediación, cálculo de TIR de cartera y costos de originación.</p>
+            <button class="btn btn-outline" style="width:100%;" onclick="App.generateReportFile('Reporte_Rentabilidad_Finora')">
+              <i data-lucide="file-text"></i>
+              <span>Generar Reporte</span>
+            </button>
+          </div>
+
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
+              <div class="kpi-icon-wrap warning"><i data-lucide="scale"></i></div>
+              <span class="badge badge-warning">Auditoría</span>
+            </div>
+            <h3 class="card-title" style="margin-bottom:6px;">Reporte de Conciliación</h3>
+            <p class="card-subtitle" style="margin-bottom:18px;">Auditoría de correspondencia entre recaudos y cuentas receptoras bancarias.</p>
+            <button class="btn btn-outline" style="width:100%;" onclick="App.generateReportFile('Reporte_Conciliacion_Bancaria')">
+              <i data-lucide="file-text"></i>
+              <span>Generar Reporte</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           VIEW 10: CONFIGURACIÓN
+           ================================================================ -->
+      <section class="page-view" id="view-configuracion">
+        <div class="page-title-row">
+          <div>
+            <h1 class="page-title">Parámetros del Sistema</h1>
+            <p class="page-subtitle">Políticas de riesgo, topes de crédito y canales de dispersión bancaria.</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-primary" onclick="App.showToast('Parámetros actualizados y auditados en el motor de riesgo', 'success');">
+              <i data-lucide="save"></i>
+              <span>Guardar Cambios</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="config-grid-layout">
+          <div class="card">
+            <h3 class="card-title" style="margin-bottom: 16px;">Políticas de Microcrédito y Tasas</h3>
+            <div class="config-form-grid">
+              <div class="form-group">
+                <label class="form-label">Tasa Máxima de Usura (Superfinanciera)</label>
+                <input type="text" class="form-input" value="38,42% E.A." readonly style="background:#F1F5F9;">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Tasa Aplicada FINORA (Mes Vencido)</label>
+                <input type="text" class="form-input" value="2,15% M.V.">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Monto Mínimo Otorgable</label>
+                <input type="text" class="form-input" value="$500.000 COP">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Monto Máximo Microcrédito</label>
+                <input type="text" class="form-input" value="$10.000.000 COP">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Score Mínimo para Aprobación Automática</label>
+                <input type="text" class="form-input" value="750 / 1000">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Capacidad Máxima de Endeudamiento</label>
+                <input type="text" class="form-input" value="35% de ingresos netos">
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 class="card-title" style="margin-bottom: 16px;">Seguridad & Auditoría</h3>
+            <div style="display:flex; flex-direction:column; gap:14px; font-size:0.84rem;">
+              <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px;">
+                <span>Autenticación 2FA Administradores</span>
+                <span class="badge badge-success">Activa</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px;">
+                <span>Logs de Auditoría (Trazabilidad)</span>
+                <span class="badge badge-success">Inmutable</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px;">
+                <span>Dispersión ACH Automática</span>
+                <span class="badge badge-primary">Activada</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:6px;">
+                <span>Última modificación de políticas</span>
+                <span style="font-weight:600; color:var(--text-muted);">Mariana López (Hoy)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           VIEW 11: PORTAL CLIENTE FINAL ("MI CRÉDITO" - CARLOS RODRÍGUEZ)
+           ================================================================ -->
+      <section class="page-view" id="view-client-portal">
+        <div class="client-portal-wrapper">
+          <!-- Return to Admin button bar -->
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+            <span class="badge badge-primary" style="padding:6px 12px; font-size:0.8rem;">
+              <i data-lucide="eye" style="width:14px;height:14px;"></i>
+              <span>Modo Simulación: Vista del Cliente Final (App Móvil / Web)</span>
+            </span>
+            <button class="btn btn-outline btn-sm" onclick="App.togglePortalView();">
+              <i data-lucide="arrow-left"></i>
+              <span>Volver a Plataforma Administrativa</span>
+            </button>
+          </div>
+
+          <!-- Hero Greeting -->
+          <div class="client-header-hero">
+            <div class="client-greeting-row">
+              <div>
+                <h1 class="client-name-title">Hola, Carlos 👋</h1>
+                <p class="client-tagline">Así están tus finanzas hoy en FINORA.</p>
+              </div>
+              <div style="text-align:right;">
+                <span class="badge badge-success" style="font-size:0.75rem; background:rgba(255,255,255,0.2); color:#FFFFFF; border:1px solid rgba(255,255,255,0.3);">
+                  Score Excelente: 812 pts
+                </span>
+              </div>
+            </div>
+
+            <div class="client-kpis-container">
+              <div class="client-kpi-item">
+                <span class="client-kpi-label">Crédito disponible</span>
+                <span class="client-kpi-value" id="client-available-credit">$3.500.000</span>
+              </div>
+              <div class="client-kpi-item">
+                <span class="client-kpi-label">Crédito activo</span>
+                <span class="client-kpi-value">$2.400.000</span>
+              </div>
+              <div class="client-kpi-item">
+                <span class="client-kpi-label">Próxima cuota</span>
+                <span class="client-kpi-value" style="color:#6EE7B7;">$285.000</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Próxima Cuota & Progreso -->
+          <div class="client-installment-card">
+            <div class="installment-details">
+              <div class="installment-headline">Cuota 9 de 12 — Crédito #FN-10482</div>
+              <div class="installment-due">
+                <i data-lucide="alert-circle" style="width:16px;height:16px;"></i>
+                <span>Vence el 15 de Septiembre de 2026</span>
+              </div>
+              <div class="installment-progress-bar-wrap">
+                <div class="progress-labels">
+                  <span>8 de 12 cuotas pagadas</span>
+                  <span>66% completado</span>
+                </div>
+                <div class="progress-track-custom">
+                  <div class="progress-fill-custom" style="width: 66%;"></div>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-primary" style="padding:14px 28px; font-size:1rem; border-radius:var(--radius-lg);" onclick="App.showPaymentModal();">
+              <i data-lucide="credit-card"></i>
+              <span>Pagar cuota ($285.000)</span>
+            </button>
+          </div>
+
+          <!-- SIMULADOR DE CRÉDITO INTERACTIVO EN TIEMPO REAL -->
+          <div class="simulator-card">
+            <div class="card-header" style="margin-bottom: 8px;">
+              <div>
+                <h3 class="card-title" style="font-size:1.25rem;">¿Cuánto necesitas hoy?</h3>
+                <p class="card-subtitle">Simula tu microcrédito instantáneo con desembolso en minutos</p>
+              </div>
+              <span class="badge badge-success">Tasa preferencial 2,15% M.V.</span>
+            </div>
+
+            <!-- Range Slider -->
+            <div class="slider-container">
+              <div class="slider-label-row">
+                <span class="slider-title">Monto seleccionado</span>
+                <span class="slider-active-val" id="sim-display-monto">$3.000.000</span>
+              </div>
+              <input type="range" class="custom-range-slider" id="sim-slider-input" min="500000" max="10000000" step="100000" value="3000000" oninput="App.updateSimulator()">
+              <div class="slider-limits">
+                <span>$500.000</span>
+                <span>$5.000.000</span>
+                <span>$10.000.000</span>
+              </div>
+            </div>
+
+            <!-- Term Selector -->
+            <div class="term-selector-row">
+              <span class="slider-title">Plazo del microcrédito</span>
+              <div class="term-buttons-group">
+                <button class="term-btn" data-months="3" onclick="App.selectSimulatorTerm(3, this)">3 meses</button>
+                <button class="term-btn active" data-months="6" onclick="App.selectSimulatorTerm(6, this)">6 meses</button>
+                <button class="term-btn" data-months="9" onclick="App.selectSimulatorTerm(9, this)">9 meses</button>
+                <button class="term-btn" data-months="12" onclick="App.selectSimulatorTerm(12, this)">12 meses</button>
+              </div>
+            </div>
+
+            <!-- Breakdown -->
+            <div class="simulator-breakdown-box">
+              <div>
+                <div class="sim-metric-label">Monto solicitado</div>
+                <div class="sim-metric-val" id="sim-breakdown-monto">$3.000.000</div>
+              </div>
+              <div>
+                <div class="sim-metric-label">Tasa mensual</div>
+                <div class="sim-metric-val" id="sim-breakdown-tasa">2,15% M.V.</div>
+              </div>
+              <div>
+                <div class="sim-metric-label">Intereses estimados</div>
+                <div class="sim-metric-val" id="sim-breakdown-intereses">$360.000</div>
+              </div>
+              <div>
+                <div class="sim-metric-label">Cuota mensual estimada</div>
+                <div class="sim-metric-val highlight" id="sim-breakdown-cuota">$560.000</div>
+              </div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px;">
+              <div>
+                <span style="font-size:0.76rem; color:var(--text-muted);">Total a pagar (Capital + Intereses):</span>
+                <div style="font-size:1.15rem; font-weight:800; color:var(--text-main);" id="sim-breakdown-total">$3.360.000</div>
+              </div>
+              <button class="btn btn-secondary" style="padding:12px 24px; font-size:0.95rem;" onclick="App.requestCreditFromSimulator();">
+                <i data-lucide="zap"></i>
+                <span>Solicitar crédito ahora</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- ESTADO DE SOLICITUD RECIENTE -->
+          <div class="card" style="margin-bottom: 24px;">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Estado de tu solicitud #FN-10492</h3>
+                <p class="card-subtitle">Solicitud de ampliación de cupo ($4.000.000)</p>
+              </div>
+              <span class="badge badge-warning">En proceso de desembolso</span>
+            </div>
+
+            <div class="timeline-vertical">
+              <div class="timeline-item completed">
+                <div class="timeline-icon"><i data-lucide="check" style="width:14px;height:14px;"></i></div>
+                <div class="timeline-content">
+                  <div class="timeline-title">Solicitud enviada</div>
+                  <div class="timeline-date">02 Sep 2026 — 09:15 AM</div>
+                </div>
+              </div>
+              <div class="timeline-item completed">
+                <div class="timeline-icon"><i data-lucide="check" style="width:14px;height:14px;"></i></div>
+                <div class="timeline-content">
+                  <div class="timeline-title">Validación de identidad</div>
+                  <div class="timeline-date">02 Sep 2026 — 09:18 AM (Biometría facial aprobada)</div>
+                </div>
+              </div>
+              <div class="timeline-item completed">
+                <div class="timeline-icon"><i data-lucide="check" style="width:14px;height:14px;"></i></div>
+                <div class="timeline-content">
+                  <div class="timeline-title">Evaluación de crédito</div>
+                  <div class="timeline-date">02 Sep 2026 — 09:20 AM (Score 812 / Riesgo Bajo)</div>
+                </div>
+              </div>
+              <div class="timeline-item completed">
+                <div class="timeline-icon"><i data-lucide="check" style="width:14px;height:14px;"></i></div>
+                <div class="timeline-content">
+                  <div class="timeline-title">Aprobación</div>
+                  <div class="timeline-date">02 Sep 2026 — 09:22 AM (Aprobado por Mariana López)</div>
+                </div>
+              </div>
+              <div class="timeline-item current">
+                <div class="timeline-icon"><i data-lucide="loader-2" style="width:14px;height:14px; animation:spin 2s linear infinite;"></i></div>
+                <div class="timeline-content">
+                  <div class="timeline-title">Desembolso en curso</div>
+                  <div class="timeline-date">Programado para acreditación en Bancolombia Cta Ahorros ****3821</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- HISTORIAL DE CRÉDITOS ANTERIORES -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Historial de créditos pagados</h3>
+                <p class="card-subtitle">Tu excelente historial te otorga mejores tasas</p>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:12px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; padding:14px; background:var(--bg-subtle); border-radius:var(--radius-md);">
+                <div style="display:flex; align-items:center; gap:14px;">
+                  <div style="width:36px;height:36px;border-radius:50%;background:var(--success-tint);color:var(--success);display:flex;align-items:center;justify-content:center;">
+                    <i data-lucide="check" style="width:18px;height:18px;"></i>
+                  </div>
+                  <div>
+                    <div style="font-weight:700; color:var(--text-main);">Crédito #FN-10482</div>
+                    <div style="font-size:0.75rem; color:var(--text-muted);">$3.000.000 — 6 meses</div>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:14px;">
+                  <span class="badge badge-success">Pagado</span>
+                  <button class="btn btn-sm btn-outline" onclick="App.showToast('Descargando certificado de paz y salvo #FN-10482', 'info');">Ver detalle</button>
+                </div>
+              </div>
+
+              <div style="display:flex; justify-content:space-between; align-items:center; padding:14px; background:var(--bg-subtle); border-radius:var(--radius-md);">
+                <div style="display:flex; align-items:center; gap:14px;">
+                  <div style="width:36px;height:36px;border-radius:50%;background:var(--success-tint);color:var(--success);display:flex;align-items:center;justify-content:center;">
+                    <i data-lucide="check" style="width:18px;height:18px;"></i>
+                  </div>
+                  <div>
+                    <div style="font-weight:700; color:var(--text-main);">Crédito #FN-09821</div>
+                    <div style="font-size:0.75rem; color:var(--text-muted);">$2.000.000 — 4 meses</div>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:14px;">
+                  <span class="badge badge-success">Pagado</span>
+                  <button class="btn btn-sm btn-outline" onclick="App.showToast('Descargando certificado de paz y salvo #FN-09821', 'info');">Ver detalle</button>
+                </div>
+              </div>
+
+              <div style="display:flex; justify-content:space-between; align-items:center; padding:14px; background:var(--bg-subtle); border-radius:var(--radius-md);">
+                <div style="display:flex; align-items:center; gap:14px;">
+                  <div style="width:36px;height:36px;border-radius:50%;background:var(--success-tint);color:var(--success);display:flex;align-items:center;justify-content:center;">
+                    <i data-lucide="check" style="width:18px;height:18px;"></i>
+                  </div>
+                  <div>
+                    <div style="font-weight:700; color:var(--text-main);">Crédito #FN-08752</div>
+                    <div style="font-size:0.75rem; color:var(--text-muted);">$1.500.000 — 3 meses</div>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:14px;">
+                  <span class="badge badge-success">Pagado</span>
+                  <button class="btn btn-sm btn-outline" onclick="App.showToast('Descargando certificado de paz y salvo #FN-08752', 'info');">Ver detalle</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ================================================================
+       DRAWERS LATERALES
+       ================================================================ -->
+  
+  <!-- Backdrop universal para drawers -->
+  <div class="drawer-backdrop" id="app-drawer-backdrop" onclick="App.closeAllDrawers();"></div>
+
+  <!-- DRAWER 1: EVALUACIÓN CREDITICIA & SCORING (Para Solicitudes) -->
+  <div class="drawer" id="drawer-scoring">
+    <div class="drawer-header">
+      <div class="drawer-title-group">
+        <h2 class="drawer-title" id="drawer-scoring-client-name">Evaluación Crediticia</h2>
+        <span class="drawer-subtitle" id="drawer-scoring-sub">Solicitud #FN-10492 — Laura Martínez</span>
+      </div>
+      <button class="drawer-close-btn" onclick="App.closeAllDrawers();">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+
+    <div class="drawer-body">
+      <!-- Gauge Circular Score Hero -->
+      <div class="score-card-hero">
+        <div class="gauge-circle-container">
+          <svg class="gauge-svg" viewBox="0 0 100 100">
+            <circle class="gauge-bg" cx="50" cy="50" r="42"></circle>
+            <circle class="gauge-progress" id="scoring-gauge-circle" cx="50" cy="50" r="42"></circle>
+          </svg>
+          <div class="gauge-value-text">
+            <div class="gauge-number" id="drawer-score-number">812</div>
+            <div class="gauge-total">/ 1000</div>
+          </div>
+        </div>
+        <div class="score-meta-side">
+          <div class="score-category-badge">
+            <i data-lucide="shield-check" style="width:13px;height:13px;"></i>
+            <span id="drawer-score-category">Riesgo Bajo</span>
+          </div>
+          <div class="score-headline">Perfil Altamente Aprobable</div>
+          <div class="score-subdesc">Comportamiento financiero intachable en centrales de riesgo (TransUnion / Datacrédito).</div>
+        </div>
+      </div>
+
+      <!-- Desglose de Factores del Scoring -->
+      <div>
+        <h4 style="font-size:0.85rem; font-weight:700; color:var(--text-main); margin-bottom:12px;">Desglose de Capacidad y Factores de Riesgo</h4>
+        <div class="scoring-breakdown">
+          <div class="metric-bar-item">
+            <div class="metric-bar-header">
+              <span>Capacidad de pago</span>
+              <span id="metric-capacidad">92%</span>
+            </div>
+            <div class="metric-progress-track">
+              <div class="metric-progress-fill" style="width: 92%; background:#16A34A;"></div>
+            </div>
+          </div>
+
+          <div class="metric-bar-item">
+            <div class="metric-bar-header">
+              <span>Historial crediticio</span>
+              <span id="metric-historial">87%</span>
+            </div>
+            <div class="metric-progress-track">
+              <div class="metric-progress-fill" style="width: 87%; background:#2563EB;"></div>
+            </div>
+          </div>
+
+          <div class="metric-bar-item">
+            <div class="metric-bar-header">
+              <span>Comportamiento de pagos anteriores</span>
+              <span id="metric-comportamiento">95%</span>
+            </div>
+            <div class="metric-progress-track">
+              <div class="metric-progress-fill" style="width: 95%; background:#16A34A;"></div>
+            </div>
+          </div>
+
+          <div class="metric-bar-item">
+            <div class="metric-bar-header">
+              <span>Nivel de endeudamiento externo</span>
+              <span id="metric-endeudamiento">76%</span>
+            </div>
+            <div class="metric-progress-track">
+              <div class="metric-progress-fill" style="width: 76%; background:#F59E0B;"></div>
+            </div>
+          </div>
+
+          <div class="metric-bar-item">
+            <div class="metric-bar-header">
+              <span>Estabilidad laboral / de ingresos</span>
+              <span id="metric-estabilidad">89%</span>
+            </div>
+            <div class="metric-progress-track">
+              <div class="metric-progress-fill" style="width: 89%; background:#2563EB;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECOMENDACIÓN AUTOMÁTICA DEL MOTOR DE RIESGO -->
+      <div class="risk-engine-card">
+        <div class="risk-engine-header">
+          <i data-lucide="check-circle-2"></i>
+          <span>Recomendación del motor de riesgo: Cliente elegible</span>
+        </div>
+        <p style="font-size:0.78rem; color:#166534; line-height:1.4;">
+          El motor heurístico ponderó las variables de flujo de caja y determinó una viabilidad óptima sin garantías adicionales.
+        </p>
+
+        <div class="risk-recommendation-grid">
+          <div class="rec-stat-box">
+            <div class="rec-stat-label">Monto sugerido</div>
+            <div class="rec-stat-val" id="rec-monto">$4.000.000</div>
+          </div>
+          <div class="rec-stat-box">
+            <div class="rec-stat-label">Plazo sugerido</div>
+            <div class="rec-stat-val" id="rec-plazo">9 meses</div>
+          </div>
+          <div class="rec-stat-box">
+            <div class="rec-stat-label">Probabilidad de pago</div>
+            <div class="rec-stat-val" style="color:var(--success);">94,6%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ORIGEN Y GEOLOCALIZACIÓN DE LA SOLICITUD (Antifraude & Trazabilidad) -->
+      <div style="background:#FAFBFD; border:1px solid var(--border); border-radius:var(--radius-md); padding:16px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h5 style="font-size:0.84rem; font-weight:700; color:var(--primary); display:flex; align-items:center; gap:6px;">
+            <i data-lucide="map-pin" style="width:16px;height:16px; color:var(--secondary);"></i>
+            <span>Origen & Metadatos de Geolocalización</span>
+          </h5>
+          <span class="badge badge-success" style="font-size:0.7rem;">
+            <i data-lucide="shield-check" style="width:12px;height:12px;"></i>
+            <span>IP Confiable (Colombia)</span>
+          </span>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; font-size:0.8rem;">
+          <div>
+            <div style="color:var(--text-muted); font-size:0.7rem; font-weight:600;">Canal de Origen</div>
+            <div style="font-weight:700; color:var(--text-main); display:flex; align-items:center; gap:5px; margin-top:2px;" id="drawer-geo-canal">
+              <i data-lucide="smartphone" style="width:14px;height:14px; color:var(--secondary);"></i>
+              <span>App Móvil FINORA</span>
+            </div>
+          </div>
+
+          <div>
+            <div style="color:var(--text-muted); font-size:0.7rem; font-weight:600;">Ubicación GPS (Al solicitar)</div>
+            <div style="font-weight:700; color:var(--text-main); margin-top:2px;" id="drawer-geo-ubicacion">
+              Bogotá D.C. — Chapinero
+            </div>
+            <div style="font-size:0.68rem; color:var(--text-muted); font-family:var(--font-mono);" id="drawer-geo-coords">
+              Lat 4.6533, Long -74.0588 (±6m)
+            </div>
+          </div>
+
+          <div>
+            <div style="color:var(--text-muted); font-size:0.7rem; font-weight:600;">Dispositivo & Huella (Fingerprint)</div>
+            <div style="font-weight:700; color:var(--text-main); margin-top:2px;" id="drawer-geo-dispositivo">
+              Samsung Galaxy A54 5G
+            </div>
+            <div style="font-size:0.68rem; color:var(--success-text); font-weight:600;">
+              ✓ Sin root / Sin emulador detectado
+            </div>
+          </div>
+
+          <div>
+            <div style="color:var(--text-muted); font-size:0.7rem; font-weight:600;">Dirección IP & Proveedor</div>
+            <div style="font-weight:700; font-family:var(--font-mono); color:var(--text-main); margin-top:2px;" id="drawer-geo-ip">
+              181.134.209.42
+            </div>
+            <div style="font-size:0.68rem; color:var(--text-muted);" id="drawer-geo-isp">
+              Claro Telecomunicaciones Colombia
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:10px; padding-top:10px; border-top:1px dashed var(--border); display:flex; align-items:center; justify-content:space-between; font-size:0.74rem;">
+          <span style="color:var(--text-muted);">Coincidencia con residencia declarada:</span>
+          <span style="font-weight:700; color:var(--success); display:flex; align-items:center; gap:4px;">
+            <i data-lucide="check" style="width:13px;height:13px;"></i>
+            <span>98,4% (Zona habitual)</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- Información Adicional del Solicitante -->
+      <div style="background:var(--bg-subtle); border-radius:var(--radius-md); padding:16px;">
+        <h5 style="font-size:0.8rem; font-weight:700; color:var(--text-main); margin-bottom:10px;">Resumen del Solicitante</h5>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; font-size:0.78rem;">
+          <div><strong style="color:var(--text-muted);">Ingresos netos:</strong> <span id="drawer-info-ingresos">$3.800.000</span></div>
+          <div><strong style="color:var(--text-muted);">Actividad:</strong> Comerciante / Independiente</div>
+          <div><strong style="color:var(--text-muted);">Ciudad:</strong> <span id="drawer-info-ciudad">Bogotá D.C.</span></div>
+          <div><strong style="color:var(--text-muted);">Validación CC:</strong> Biometría Aprobada</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botones de Acción -->
+    <div class="drawer-footer">
+      <button class="btn btn-outline" onclick="App.openReviewRequest();">Solicitar revisión</button>
+      <button class="btn btn-danger" onclick="App.rejectSolicitudCurrent();">Rechazar</button>
+      <button class="btn btn-success" onclick="App.openApprovalModal();">
+        <i data-lucide="check"></i>
+        <span>Aprobar Solicitud</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- DRAWER 2: DETALLE DE CONCILIACIÓN BANCARIA -->
+  <div class="drawer" id="drawer-conciliacion">
+    <div class="drawer-header">
+      <div class="drawer-title-group">
+        <h2 class="drawer-title">Detalle de Transacción</h2>
+        <span class="drawer-subtitle" id="drawer-concil-id">TX-982341 — Conciliación Bancaria</span>
+      </div>
+      <button class="drawer-close-btn" onclick="App.closeAllDrawers();">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+
+    <div class="drawer-body">
+      <!-- Resumen de transacción -->
+      <div style="background:var(--bg-subtle); border-radius:var(--radius-md); padding:16px; border:1px solid var(--border);">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <span style="font-size:0.8rem; font-weight:700; color:var(--text-muted);">Estado Actual</span>
+          <span id="drawer-concil-badge" class="badge badge-success">CONCILIADO</span>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; font-size:0.82rem;">
+          <div>
+            <div style="color:var(--text-muted); font-size:0.72rem;">Cliente</div>
+            <div style="font-weight:700;" id="drawer-concil-cliente">Carlos Rodríguez</div>
+          </div>
+          <div>
+            <div style="color:var(--text-muted); font-size:0.72rem;">Crédito Asociado</div>
+            <div style="font-weight:700;" id="drawer-concil-credito">#FN-10482</div>
+          </div>
+          <div>
+            <div style="color:var(--text-muted); font-size:0.72rem;">Fecha y Hora</div>
+            <div style="font-weight:700;" id="drawer-concil-fecha">02 Sep 2026 - 10:14</div>
+          </div>
+          <div>
+            <div style="color:var(--text-muted); font-size:0.72rem;">Referencia Bancaria</div>
+            <div style="font-weight:700; font-family:var(--font-mono);" id="drawer-concil-ref">REF-882193</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cuadre Numérico -->
+      <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:10px;">
+        <div style="background:#FFFFFF; border:1px solid var(--border); padding:12px; border-radius:var(--radius-sm); text-align:center;">
+          <div style="font-size:0.7rem; color:var(--text-muted); font-weight:600;">Monto Esperado</div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--text-main);" id="drawer-concil-esperado">$285.000</div>
+        </div>
+        <div style="background:#FFFFFF; border:1px solid var(--border); padding:12px; border-radius:var(--radius-sm); text-align:center;">
+          <div style="font-size:0.7rem; color:var(--text-muted); font-weight:600;">Monto Recibido</div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--text-main);" id="drawer-concil-recibido">$285.000</div>
+        </div>
+        <div style="background:#FFFFFF; border:1px solid var(--border); padding:12px; border-radius:var(--radius-sm); text-align:center;">
+          <div style="font-size:0.7rem; color:var(--text-muted); font-weight:600;">Diferencia</div>
+          <div style="font-size:1.05rem; font-weight:800; color:var(--success);" id="drawer-concil-dif">$0</div>
+        </div>
+      </div>
+
+      <!-- Timeline Bancario -->
+      <div>
+        <h4 style="font-size:0.85rem; font-weight:700; color:var(--text-main); margin-bottom:12px;">Trazabilidad Bancaria (Auditoría)</h4>
+        <div class="timeline-vertical">
+          <div class="timeline-item completed">
+            <div class="timeline-icon"><i data-lucide="check" style="width:14px;height:14px;"></i></div>
+            <div class="timeline-content">
+              <div class="timeline-title">1. Recaudo generado en FINORA</div>
+              <div class="timeline-date">Notificación emitida por webhook pasarela</div>
+            </div>
+          </div>
+          <div class="timeline-item completed">
+            <div class="timeline-icon"><i data-lucide="check" style="width:14px;height:14px;"></i></div>
+            <div class="timeline-content">
+              <div class="timeline-title">2. Procesado en Red ACH / Pasarela</div>
+              <div class="timeline-date">Respuesta código 00 (Aprobado sin reserva)</div>
+            </div>
+          </div>
+          <div class="timeline-item completed">
+            <div class="timeline-icon"><i data-lucide="check" style="width:14px;height:14px;"></i></div>
+            <div class="timeline-content">
+              <div class="timeline-title">3. Acreditado en Cuenta Receptora</div>
+              <div class="timeline-date">Bancolombia Cta Corriente ****9910</div>
+            </div>
+          </div>
+          <div class="timeline-item completed" id="concil-timeline-step-4">
+            <div class="timeline-icon"><i data-lucide="check" style="width:14px;height:14px;"></i></div>
+            <div class="timeline-content">
+              <div class="timeline-title">4. Conciliado y cerrado en libros</div>
+              <div class="timeline-date">Asiento contable automático generado</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="drawer-footer">
+      <button class="btn btn-outline" onclick="App.showToast('Descargando comprobante bancario oficial en PDF', 'info');">
+        <i data-lucide="file-text"></i>
+        <span>Ver comprobante</span>
+      </button>
+      <button class="btn btn-warning" onclick="App.markAsDifference();">
+        <span>Marcar como diferencia</span>
+      </button>
+      <button class="btn btn-success" id="btn-manual-concil" onclick="App.conciliarManualmente();">
+        <i data-lucide="check-check"></i>
+        <span>Conciliar manualmente</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- DRAWER 3: PERFIL 360° DEL CLIENTE -->
+  <div class="drawer" id="drawer-cliente">
+    <div class="drawer-header">
+      <div class="drawer-title-group">
+        <h2 class="drawer-title" id="drawer-cli-name">Carlos Rodríguez</h2>
+        <span class="drawer-subtitle" id="drawer-cli-doc">CC 1.023.456.789 — Bogotá D.C.</span>
+      </div>
+      <button class="drawer-close-btn" onclick="App.closeAllDrawers();">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+
+    <div class="drawer-body">
+      <!-- Header Summary Card -->
+      <div style="background:var(--bg-subtle); border-radius:var(--radius-md); padding:16px; display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <div style="font-size:0.74rem; color:var(--text-muted);">Cliente desde: <strong>Marzo 2024</strong></div>
+          <div style="font-size:0.74rem; color:var(--text-muted);">Score Centrales: <strong style="color:var(--success);">812 / 1000</strong></div>
+        </div>
+        <span class="badge badge-success">Activo / Al día</span>
+      </div>
+
+      <!-- Info Personal & Financiera -->
+      <div class="card" style="padding:16px;">
+        <h4 style="font-size:0.85rem; font-weight:700; color:var(--text-main); margin-bottom:12px;">Información Financiera</h4>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; font-size:0.82rem;">
+          <div><span style="color:var(--text-muted);">Ingresos certificados:</span> <strong>$4.200.000</strong></div>
+          <div><span style="color:var(--text-muted);">Actividad:</span> Empleado / Técnico</div>
+          <div><span style="color:var(--text-muted);">Teléfono:</span> +57 312 456 7890</div>
+          <div><span style="color:var(--text-muted);">Email:</span> c.rodriguez@email.co</div>
+        </div>
+      </div>
+
+      <!-- Créditos Activos e Historial -->
+      <div class="card" style="padding:16px;">
+        <h4 style="font-size:0.85rem; font-weight:700; color:var(--text-main); margin-bottom:12px;">Créditos en FINORA</h4>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="border:1px solid var(--border); border-radius:var(--radius-sm); padding:10px;">
+            <div style="display:flex; justify-content:space-between; font-weight:700; font-size:0.84rem;">
+              <span>Crédito #FN-10482</span>
+              <span class="badge badge-success">Al día</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:var(--text-muted); margin-top:4px;">
+              <span>Saldo: $2.400.000</span>
+              <span>Cuota: $285.000</span>
+            </div>
+          </div>
+          <div style="border:1px solid var(--border); border-radius:var(--radius-sm); padding:10px; background:#FAFAFA;">
+            <div style="display:flex; justify-content:space-between; font-weight:700; font-size:0.84rem;">
+              <span>Crédito #FN-09821</span>
+              <span class="badge badge-neutral">Liquidado</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:var(--text-muted); margin-top:4px;">
+              <span>Monto: $2.000.000</span>
+              <span>Total Pagado: $2.240.000</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Timeline de Comportamiento -->
+      <div>
+        <h4 style="font-size:0.85rem; font-weight:700; color:var(--text-main); margin-bottom:12px;">Historial de Comportamiento</h4>
+        <div class="timeline-vertical">
+          <div class="timeline-item completed">
+            <div class="timeline-icon"><i data-lucide="check" style="width:14px;height:14px;"></i></div>
+            <div class="timeline-content">
+              <div class="timeline-title">Pago Cuota 8 Acreditado ($285.000)</div>
+              <div class="timeline-date">15 Ago 2026 — Pago puntual vía PSE</div>
+            </div>
+          </div>
+          <div class="timeline-item completed">
+            <div class="timeline-icon"><i data-lucide="check" style="width:14px;height:14px;"></i></div>
+            <div class="timeline-content">
+              <div class="timeline-title">Pago Cuota 7 Acreditado ($285.000)</div>
+              <div class="timeline-date">14 Jul 2026 — Pago puntual vía Nequi</div>
+            </div>
+          </div>
+          <div class="timeline-item completed">
+            <div class="timeline-icon"><i data-lucide="check" style="width:14px;height:14px;"></i></div>
+            <div class="timeline-content">
+              <div class="timeline-title">Aprobación y Desembolso Inicial</div>
+              <div class="timeline-date">10 Dic 2025 — $3.000.000 a cuenta Bancolombia</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="drawer-footer">
+      <button class="btn btn-outline" onclick="App.closeAllDrawers();">Cerrar</button>
+      <button class="btn btn-primary" onclick="App.showToast('Extracto integral del cliente generado', 'info');">
+        <i data-lucide="download"></i>
+        <span>Descargar Extracto 360°</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       MODALES
+       ================================================================ -->
+
+  <!-- MODAL: CONFIRMACIÓN DE APROBACIÓN DE CRÉDITO -->
+  <div class="modal-backdrop" id="modal-confirm-approval">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">¿Confirmar aprobación?</h3>
+        <button class="drawer-close-btn" onclick="App.closeModals();"><i data-lucide="x"></i></button>
+      </div>
+      <div class="modal-body">
+        <p style="margin-bottom:14px; color:var(--text-main); font-weight:600;">
+          Se aprobará un microcrédito formal con los siguientes términos:
+        </p>
+        <div style="background:var(--bg-subtle); padding:16px; border-radius:var(--radius-md); border:1px solid var(--border); font-size:0.86rem; display:flex; flex-direction:column; gap:8px;">
+          <div><strong>Cliente:</strong> <span id="modal-app-client">Laura Martínez</span></div>
+          <div><strong>Monto Aprobado:</strong> <span id="modal-app-monto" style="color:var(--secondary); font-weight:800;">$4.000.000</span></div>
+          <div><strong>Plazo:</strong> 9 meses a 2,15% M.V.</div>
+          <div><strong>Dispersión:</strong> Inmediata por red ACH Bancolombia</div>
+        </div>
+        <p style="margin-top:14px; font-size:0.78rem; color:var(--text-muted);">
+          Esta acción generará el pagaré desmaterializado y enviará la notificación de firma electrónica al cliente por SMS y correo electrónico.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="App.closeModals();">Cancelar</button>
+        <button class="btn btn-success" onclick="App.confirmApprovalAction();">
+          <i data-lucide="check"></i>
+          <span>Confirmar Aprobación</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: PAGO DE CUOTA (PORTAL CLIENTE) -->
+  <div class="modal-backdrop" id="modal-client-payment">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Realiza tu pago</h3>
+        <button class="drawer-close-btn" onclick="App.closeModals();"><i data-lucide="x"></i></button>
+      </div>
+      <div class="modal-body">
+        <div style="background:var(--primary-tint); padding:14px 18px; border-radius:var(--radius-md); margin-bottom:18px;">
+          <span style="font-size:0.75rem; color:var(--primary); font-weight:600;">Valor a pagar (Cuota 9/12)</span>
+          <div style="font-size:1.7rem; font-weight:800; color:var(--primary);">$285.000 COP</div>
+        </div>
+
+        <label class="form-label" style="margin-bottom:8px; display:block;">Selecciona tu medio de pago:</label>
+        <div class="payment-methods-grid">
+          <div class="payment-method-card active" data-method="pse" onclick="App.selectPaymentMethod('pse', this)">
+            <div class="pm-logo pse">PSE</div>
+            <div class="pm-name">Débito ACH</div>
+          </div>
+          <div class="payment-method-card" data-method="nequi" onclick="App.selectPaymentMethod('nequi', this)">
+            <div class="pm-logo nequi">Nequi</div>
+            <div class="pm-name">Billetera</div>
+          </div>
+          <div class="payment-method-card" data-method="banco" onclick="App.selectPaymentMethod('banco', this)">
+            <div class="pm-logo banco">Bancolombia</div>
+            <div class="pm-name">Transferencia</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Correo para envío de comprobante</label>
+          <input type="email" class="form-input" value="carlos.rodriguez@email.co">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="App.closeModals();">Cancelar</button>
+        <button class="btn btn-secondary" onclick="App.processClientPayment();">
+          <i data-lucide="lock"></i>
+          <span>Continuar con el pago seguro</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: REGISTRAR RECAUDO MANUAL -->
+  <div class="modal-backdrop" id="modal-manual-recaudo">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Registrar Recaudo Manual</h3>
+        <button class="drawer-close-btn" onclick="App.closeModals();"><i data-lucide="x"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Cliente o No. Crédito</label>
+          <input type="text" class="form-input" id="man-rec-cliente" placeholder="Ej: Andrés Gómez o FN-10482">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Monto Recaudado (COP)</label>
+          <input type="text" class="form-input" id="man-rec-monto" placeholder="$350.000">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Medio de Pago</label>
+          <select class="form-select" id="man-rec-metodo">
+            <option>PSE</option>
+            <option>Nequi</option>
+            <option>Transferencia Bancolombia</option>
+            <option>Efectivo (Corresponsal Bancario)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Número de Aprobación / Comprobante</label>
+          <input type="text" class="form-input" id="man-rec-ref" placeholder="Ej: CUS-849201">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="App.closeModals();">Cancelar</button>
+        <button class="btn btn-primary" onclick="App.saveManualRecaudo();">
+          <i data-lucide="check"></i>
+          <span>Aplicar a Cartera</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: DISPERSIÓN LOTE ACH -->
+  <div class="modal-backdrop" id="modal-disperse-all">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Dispersión Masiva de Fondos</h3>
+        <button class="drawer-close-btn" onclick="App.closeModals();"><i data-lucide="x"></i></button>
+      </div>
+      <div class="modal-body">
+        <p style="margin-bottom:12px;">Se enviará la orden de dispersión bancaria directa vía API ACH Colombia:</p>
+        <div style="background:var(--bg-subtle); padding:16px; border-radius:var(--radius-md); font-size:0.86rem; margin-bottom:12px;">
+          <div><strong>Total créditos en lote:</strong> 14 operaciones</div>
+          <div><strong>Monto total a dispersar:</strong> <span style="font-weight:800; color:var(--primary);">$52.800.000 COP</span></div>
+          <div><strong>Cuentas destino:</strong> Bancolombia, Davivienda, Nequi</div>
+        </div>
+        <p style="font-size:0.75rem; color:var(--text-muted);">
+          🔒 La transacción cuenta con token criptográfico de Mariana López (Administrador).
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="App.closeModals();">Cancelar</button>
+        <button class="btn btn-primary" onclick="App.confirmDisperseAll();">
+          <i data-lucide="send"></i>
+          <span>Confirmar y Dispersar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div class="toast-container" id="toast-container"></div>
+
+</div>
+
+<!-- Application Logic -->
+<script src="app.js"></script>
+
+</body>
+</html>
