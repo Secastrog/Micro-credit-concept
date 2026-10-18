@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FINORA — Plataforma Inteligente de Crédito y Cartera</title>
+  <title>CAPITALCOP — Plataforma Inteligente de Crédito y Cartera</title>
   <meta name="description" content="Plataforma integral fintech para originación, scoring, desembolso, recaudo, conciliación y gestión de cartera de microcréditos en Colombia.">
 
   <!-- Google Fonts: Plus Jakarta Sans -->
@@ -31,10 +31,10 @@
   <aside class="sidebar" id="app-sidebar">
     <!-- Brand Header -->
     <div class="sidebar-brand">
-      <a href="#" class="brand-logo-wrap" id="brand-logo-btn" onclick="App.handleBrandClick(event);" title="FINORA — Inicio">
-        <div class="brand-symbol">F</div>
+      <a href="#" class="brand-logo-wrap" id="brand-logo-btn" onclick="App.handleBrandClick(event);" title="CAPITALCOP — Inicio">
+        <div class="brand-symbol">C</div>
         <div class="brand-text">
-          <span class="brand-name">FINORA</span>
+          <span class="brand-name">CAPITALCOP</span>
           <span class="brand-tagline">Crédito & Cartera</span>
         </div>
       </a>
@@ -166,7 +166,7 @@
 
         <div class="org-badge" title="Entidad financiera activa">
           <div class="org-flag"></div>
-          <span>Finora Colombia</span>
+          <span>Capitalcop Colombia</span>
         </div>
       </div>
 
@@ -208,7 +208,7 @@
         <div class="dropdown-menu" id="user-dropdown">
           <div style="padding: 8px 12px; border-bottom: 1px solid var(--border); margin-bottom: 4px;">
             <div style="font-weight:700; color:var(--text-main); font-size:0.86rem;">Mariana López</div>
-            <div style="color:var(--text-muted); font-size:0.75rem;">mariana.lopez@finora.co</div>
+            <div style="color:var(--text-muted); font-size:0.75rem;">mariana.lopez@capitalcop.co</div>
           </div>
           <button class="dropdown-item" onclick="App.navigateTo('configuracion'); App.closeDropdowns();">
             <i data-lucide="settings" style="width:15px;height:15px;"></i>
@@ -219,7 +219,7 @@
             <span>Simular App Cliente</span>
           </button>
           <div class="dropdown-divider"></div>
-          <button class="dropdown-item" style="color: var(--danger);" onclick="App.showToast('Sesión segura activa en Finora Colombia', 'info'); App.closeDropdowns();">
+          <button class="dropdown-item" style="color: var(--danger);" onclick="App.showToast('Sesión segura activa en Capitalcop Colombia', 'info'); App.closeDropdowns();">
             <i data-lucide="log-out" style="width:15px;height:15px;"></i>
             <span>Cerrar Sesión</span>
           </button>
@@ -1060,7 +1060,7 @@
           <div class="kpi-card">
             <span class="kpi-label">Recaudos del día</span>
             <div class="kpi-value" style="font-size:1.3rem;">$428.500.000</div>
-            <span style="font-size:0.72rem; color:var(--text-muted);">Registrado en FINORA</span>
+            <span style="font-size:0.72rem; color:var(--text-muted);">Registrado en CAPITALCOP</span>
           </div>
           <div class="kpi-card">
             <span class="kpi-label">Movimientos bancarios</span>
@@ -1282,7 +1282,7 @@
             </div>
             <h3 class="card-title" style="margin-bottom:6px;">Reporte de Cartera</h3>
             <p class="card-subtitle" style="margin-bottom:18px;">Balance detallado de saldos de capital, intereses devengados y estado por cliente.</p>
-            <button class="btn btn-outline" style="width:100%;" onclick="App.generateReportFile('Reporte_Cartera_Finora')">
+            <button class="btn btn-outline" style="width:100%;" onclick="App.generateReportFile('Reporte_Cartera_Capitalcop')">
               <i data-lucide="file-text"></i>
               <span>Generar Reporte</span>
             </button>
@@ -1295,7 +1295,7 @@
             </div>
             <h3 class="card-title" style="margin-bottom:6px;">Reporte de Mora</h3>
             <p class="card-subtitle" style="margin-bottom:18px;">Estratificación por edades de mora (1-30, 31-60, 60+), cosechas de crédito y provisiones.</p>
-            <button class="btn btn-outline" style="width:100%;" onclick="App.generateReportFile('Reporte_Mora_Cosechas_Finora')">
+            <button class="btn btn-outline" style="width:100%;" onclick="App.generateReportFile('Reporte_Mora_Cosechas_Capitalcop')">
               <i data-lucide="file-text"></i>
               <span>Generar Reporte</span>
             </button>
@@ -1308,7 +1308,7 @@
             </div>
             <h3 class="card-title" style="margin-bottom:6px;">Reporte de Recaudos</h3>
             <p class="card-subtitle" style="margin-bottom:18px;">Consolidado de pagos recibidos clasificados por canal (PSE, Nequi, transferencias).</p>
-            <button class="btn btn-outline" style="width:100%;" onclick="App.generateReportFile('Reporte_Recaudos_Finora')">
+            <button class="btn btn-outline" style="width:100%;" onclick="App.generateReportFile('Reporte_Recaudos_Capitalcop')">
               <i data-lucide="file-text"></i>
               <span>Generar Reporte</span>
             </button>
@@ -1334,7 +1334,7 @@
             </div>
             <h3 class="card-title" style="margin-bottom:6px;">Reporte de Rentabilidad</h3>
             <p class="card-subtitle" style="margin-bottom:18px;">Márgenes de intermediación, cálculo de TIR de cartera y costos de originación.</p>
-            <button class="btn btn-outline" style="width:100%;" onclick="App.generateReportFile('Reporte_Rentabilidad_Finora')">
+            <button class="btn btn-outline" style="width:100%;" onclick="App.generateReportFile('Reporte_Rentabilidad_Capitalcop')">
               <i data-lucide="file-text"></i>
               <span>Generar Reporte</span>
             </button>
@@ -1381,7 +1381,7 @@
                 <input type="text" class="form-input" value="38,42% E.A." readonly style="background:#F1F5F9;">
               </div>
               <div class="form-group">
-                <label class="form-label">Tasa Aplicada FINORA (Mes Vencido)</label>
+                <label class="form-label">Tasa Aplicada CAPITALCOP (Mes Vencido)</label>
                 <input type="text" class="form-input" value="2,15% M.V.">
               </div>
               <div class="form-group">
@@ -1449,7 +1449,7 @@
             <div class="client-greeting-row">
               <div>
                 <h1 class="client-name-title">Hola, Carlos 👋</h1>
-                <p class="client-tagline">Así están tus finanzas hoy en FINORA.</p>
+                <p class="client-tagline">Así están tus finanzas hoy en CAPITALCOP.</p>
               </div>
               <div style="text-align:right;">
                 <span class="badge badge-success" style="font-size:0.75rem; background:rgba(255,255,255,0.2); color:#FFFFFF; border:1px solid rgba(255,255,255,0.3);">
@@ -1820,7 +1820,7 @@
             <div style="color:var(--text-muted); font-size:0.7rem; font-weight:600;">Canal de Origen</div>
             <div style="font-weight:700; color:var(--text-main); display:flex; align-items:center; gap:5px; margin-top:2px;" id="drawer-geo-canal">
               <i data-lucide="smartphone" style="width:14px;height:14px; color:var(--secondary);"></i>
-              <span>App Móvil FINORA</span>
+              <span>App Móvil CAPITALCOP</span>
             </div>
           </div>
 
@@ -1949,7 +1949,7 @@
           <div class="timeline-item completed">
             <div class="timeline-icon"><i data-lucide="check" style="width:14px;height:14px;"></i></div>
             <div class="timeline-content">
-              <div class="timeline-title">1. Recaudo generado en FINORA</div>
+              <div class="timeline-title">1. Recaudo generado en CAPITALCOP</div>
               <div class="timeline-date">Notificación emitida por webhook pasarela</div>
             </div>
           </div>
@@ -2028,7 +2028,7 @@
 
       <!-- Créditos Activos e Historial -->
       <div class="card" style="padding:16px;">
-        <h4 style="font-size:0.85rem; font-weight:700; color:var(--text-main); margin-bottom:12px;">Créditos en FINORA</h4>
+        <h4 style="font-size:0.85rem; font-weight:700; color:var(--text-main); margin-bottom:12px;">Créditos en CAPITALCOP</h4>
         <div style="display:flex; flex-direction:column; gap:10px;">
           <div style="border:1px solid var(--border); border-radius:var(--radius-sm); padding:10px;">
             <div style="display:flex; justify-content:space-between; font-weight:700; font-size:0.84rem;">

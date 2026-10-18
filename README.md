@@ -1,4 +1,4 @@
-# FINORA — Plataforma Inteligente de Crédito y Cartera
+# CAPITALCOP — Plataforma Inteligente de Crédito y Cartera
 
 > **Proyecto Propio & Conceptual de Negocio Fintech**  
 > **Autor & Creador:** Sergio Esteban Castro Giraldo  
@@ -9,13 +9,13 @@
 
 ## 📌 1. Visión General del Proyecto
 
-**FINORA** es una propuesta y desarrollo conceptual integral para una empresa tecnológica de gestión, originación, colocación y recaudo de **microcréditos**. Diseñada bajo un enfoque nativo *Fintech*, la plataforma resuelve los principales cuellos de botella del microcrédito tradicional en mercados emergentes: altos costos operativos, lentitud en la aprobación, asimetría de información y alta fricción en la dispersión y cobranza.
+**CAPITALCOP** es una propuesta y desarrollo conceptual integral para una empresa tecnológica de gestión, originación, colocación y recaudo de **microcréditos**. Diseñada bajo un enfoque nativo *Fintech*, la plataforma resuelve los principales cuellos de botella del microcrédito tradicional en mercados emergentes: altos costos operativos, lentitud en la aprobación, asimetría de información y alta fricción en la dispersión y cobranza.
 
 Este proyecto ha sido concebido y construido como un **proyecto propio y propietario de Sergio Esteban Castro Giraldo**, abarcando tanto el modelo operativo del negocio como la solución tecnológica interactiva que orquesta todo el ciclo crediticio de punta a punta (*end-to-end*).
 
 ```
    ┌───────────────────────────────────────────────────────────────────────────┐
-   │                                  FINORA                                   │
+   │                                CAPITALCOP                                 │
    │           Plataforma Omnicanal de Microcréditos & Gestión de Cartera      │
    └───────────────────────────────────────────────────────────────────────────┘
                                          │
@@ -37,7 +37,7 @@ Este proyecto ha sido concebido y construido como un **proyecto propio y propiet
 
 En Colombia y América Latina, una parte sustancial de la economía depende de comerciantes, microempresarios, repartidores y trabajadores independientes que enfrentan barreras de entrada ante la banca tradicional. Esta brecha empuja a los solicitantes a créditos informales con tasas usureras y prácticas coercitivas.
 
-**FINORA** introduce una alternativa formal, regulada, ágil y digital que ofrece:
+**CAPITALCOP** introduce una alternativa formal, regulada, ágil y digital que ofrece:
 
 1. **Inclusión Financiera Real y Sostenible:** Microcréditos de $500.000 a $10.000.000 COP con plazos accesibles de 3 a 12 meses, respetando los límites de tasa de usura de la Superintendencia Financiera.
 2. **Scoring Alternativo y Prevención de Fraude:** Evaluación basada no solo en burós tradicionales (Datacrédito / TransUnion), sino en metadatos de geolocalización, huella digital del dispositivo (Device Fingerprinting), IP confiable y capacidad real de flujo de caja.
@@ -50,7 +50,7 @@ En Colombia y América Latina, una parte sustancial de la economía depende de c
 
 La plataforma modela de forma exhaustiva las 9 fases críticas que componen el ciclo de vida de un microcrédito:
 
-| Fase | Denominación | Descripción Operativa en FINORA |
+| Fase | Denominación | Descripción Operativa en CAPITALCOP |
 | :---: | :--- | :--- |
 | **01** | **Originación Omnicanal** | Captación de solicitudes a través de la App Móvil (Android/iOS), Portal Web corporativo o Bots automatizados de mensajería (WhatsApp). |
 | **02** | **Scoring & Heurística** | Ponderación multicriterio automática (0 a 1000 pts) con verificación de dispositivo, georreferenciación y consistencia residencial. |
@@ -190,4 +190,4 @@ Este proyecto, incluyendo su concepción de negocio, lógica financiera, arquite
 
 ---
 
-*FINORA — Impulsando la inclusión financiera a través de tecnología inteligente de microcréditos.*
+*CAPITALCOP — Impulsando la inclusión financiera a través de tecnología inteligente de microcréditos.*
