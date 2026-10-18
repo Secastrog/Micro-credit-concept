@@ -1,12 +1,12 @@
 /**
- * FINORA — Plataforma Inteligente de Crédito y Cartera
+ * CAPITALCOP — Plataforma Inteligente de Crédito y Cartera
  * Vanilla JavaScript Enterprise Engine
  */
 
 // ==========================================================================
 // STATE MANAGEMENT & MOCK DATABASE (COLOMBIA)
 // ==========================================================================
-const FinoraState = {
+const CapitalcopState = {
   currentView: 'overview',
   activePeriod: '30d',
   simulatedClientPortal: false,
@@ -45,37 +45,37 @@ const FinoraState = {
   solicitudes: [
     { 
       id: 'FN-10492', cliente: 'Laura Martínez', doc: '1.018.992.341', monto: 4500000, plazo: 9, score: 812, ingresos: 3800000, estado: 'En revisión', fecha: '02 Sep 2026', riesgo: 'Riesgo bajo', recMonto: 4000000, recPlazo: 9,
-      canal: 'App Android', canalIcon: 'smartphone', canalCompleto: 'App Móvil FINORA v2.4 (Android 14)',
+      canal: 'App Android', canalIcon: 'smartphone', canalCompleto: 'App Móvil CAPITALCOP v2.4 (Android 14)',
       ciudad: 'Bogotá D.C.', ubicacion: 'Bogotá — Chapinero (Cra. 7 #72-41)', coords: '4.6533° N, -74.0588° W',
       dispositivo: 'Samsung Galaxy A54 5G', ip: '181.134.209.42', isp: 'Claro Telecomunicaciones Colombia'
     },
     { 
       id: 'FN-10491', cliente: 'Andrés Gómez', doc: '1.032.482.110', monto: 4000000, plazo: 6, score: 740, ingresos: 3200000, estado: 'En revisión', fecha: '01 Sep 2026', riesgo: 'Riesgo moderado', recMonto: 3500000, recPlazo: 6,
-      canal: 'Portal Web', canalIcon: 'globe', canalCompleto: 'Portal Web FINORA (Chrome en Windows 11)',
+      canal: 'Portal Web', canalIcon: 'globe', canalCompleto: 'Portal Web CAPITALCOP (Chrome en Windows 11)',
       ciudad: 'Cali', ubicacion: 'Cali — San Fernando (Cl. 5 #38-12)', coords: '3.4372° N, -76.5225° W',
       dispositivo: 'Portátil HP Pavilion (Windows 11)', ip: '190.158.44.12', isp: 'EMCALI Telecomunicaciones'
     },
     { 
       id: 'FN-10490', cliente: 'Sandra Milena Rincón', doc: '1.019.448.291', monto: 2500000, plazo: 4, score: 695, ingresos: 2400000, estado: 'Nuevas', fecha: '02 Sep 2026', riesgo: 'Riesgo moderado', recMonto: 2000000, recPlazo: 4,
-      canal: 'App iOS', canalIcon: 'smartphone', canalCompleto: 'App Móvil FINORA v2.4 (iOS 17.5)',
+      canal: 'App iOS', canalIcon: 'smartphone', canalCompleto: 'App Móvil CAPITALCOP v2.4 (iOS 17.5)',
       ciudad: 'Medellín', ubicacion: 'Medellín — El Poblado (Cra. 43A #1-50)', coords: '6.2088° N, -75.5684° W',
       dispositivo: 'iPhone 13 (iOS 17.5.1)', ip: '186.84.102.19', isp: 'Tigo UNE Fibra'
     },
     { 
       id: 'FN-10489', cliente: 'Mateo Restrepo', doc: '1.038.991.023', monto: 6000000, plazo: 12, score: 850, ingresos: 6200000, estado: 'Aprobado', fecha: '31 Ago 2026', riesgo: 'Riesgo bajo', recMonto: 6000000, recPlazo: 12,
-      canal: 'App Android', canalIcon: 'smartphone', canalCompleto: 'App Móvil FINORA v2.4 (Android 13)',
+      canal: 'App Android', canalIcon: 'smartphone', canalCompleto: 'App Móvil CAPITALCOP v2.4 (Android 13)',
       ciudad: 'Barranquilla', ubicacion: 'Barranquilla — Alto Prado (Cl. 76 #54)', coords: '10.9988° N, -74.8081° W',
       dispositivo: 'Xiaomi Redmi Note 12 Pro', ip: '181.143.88.94', isp: 'Movistar Fibra Óptica'
     },
     { 
       id: 'FN-10488', cliente: 'Patricia Echeverri', doc: '1.022.664.190', monto: 1500000, plazo: 3, score: 520, ingresos: 1800000, estado: 'Rechazado', fecha: '30 Ago 2026', riesgo: 'Riesgo alto', recMonto: 0, recPlazo: 0,
-      canal: 'Portal Web', canalIcon: 'globe', canalCompleto: 'Portal Web FINORA (Safari en Mac)',
+      canal: 'Portal Web', canalIcon: 'globe', canalCompleto: 'Portal Web CAPITALCOP (Safari en Mac)',
       ciudad: 'Bucaramanga', ubicacion: 'Bucaramanga — Cabecera (Cra. 33 #48)', coords: '7.1193° N, -73.1227° W',
       dispositivo: 'MacBook Air M2 (macOS Sonoma)', ip: '190.25.177.30', isp: 'Claro Telecomunicaciones'
     },
     { 
       id: 'FN-10487', cliente: 'Gabriel Vega', doc: '1.014.229.810', monto: 3000000, plazo: 6, score: 710, ingresos: 2900000, estado: 'Pendiente', fecha: '29 Ago 2026', riesgo: 'Riesgo moderado', recMonto: 2500000, recPlazo: 6,
-      canal: 'WhatsApp Bot', canalIcon: 'message-square', canalCompleto: 'Bot de Crédito WhatsApp FINORA',
+      canal: 'WhatsApp Bot', canalIcon: 'message-square', canalCompleto: 'Bot de Crédito WhatsApp CAPITALCOP',
       ciudad: 'Bogotá D.C.', ubicacion: 'Bogotá — Cedritos (Cl. 140 #11)', coords: '4.7214° N, -74.0322° W',
       dispositivo: 'Motorola Moto G54', ip: '181.129.50.211', isp: 'ETB Fibra Óptica'
     }
@@ -259,7 +259,7 @@ const App = {
 
     // Reset simulated client portal state if navigating via sidebar
     if (viewId !== 'client-portal') {
-      FinoraState.simulatedClientPortal = false;
+      CapitalcopState.simulatedClientPortal = false;
       document.getElementById('portal-switch-label').innerText = 'Ver Portal Cliente (Carlos R.)';
     }
 
@@ -301,7 +301,7 @@ const App = {
       breadcrumbEl.innerText = breadcrumbNames[viewId] || viewId;
     }
 
-    FinoraState.currentView = viewId;
+    CapitalcopState.currentView = viewId;
 
     // Close mobile menu if open
     const sidebar = document.getElementById('app-sidebar');
@@ -328,7 +328,7 @@ const App = {
 
   // Toggle between Admin and Client Portal ("Mi Crédito")
   togglePortalView() {
-    if (FinoraState.currentView === 'client-portal') {
+    if (CapitalcopState.currentView === 'client-portal') {
       this.navigateTo('overview');
       this.showToast('Regresando al Centro de Control Administrativo', 'info');
     } else {
@@ -342,7 +342,7 @@ const App = {
   changePeriod(period, btn) {
     document.querySelectorAll('.period-selector .period-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    FinoraState.activePeriod = period;
+    CapitalcopState.activePeriod = period;
 
     // Simulate realistic dataset variations based on period
     const kpis = {
@@ -377,7 +377,7 @@ const App = {
     const tbody = document.getElementById('overview-recent-activity-tbody');
     if (!tbody) return;
 
-    tbody.innerHTML = FinoraState.recentActivity.map(row => `
+    tbody.innerHTML = CapitalcopState.recentActivity.map(row => `
       <tr>
         <td style="color:var(--text-muted); font-size:0.78rem;">${row.fecha}</td>
         <td><strong>${row.operacion}</strong></td>
@@ -397,7 +397,7 @@ const App = {
   },
 
   inspectFromActivity(clienteName) {
-    const client = FinoraState.clientes.find(c => c.nombre.toLowerCase().includes(clienteName.toLowerCase()));
+    const client = CapitalcopState.clientes.find(c => c.nombre.toLowerCase().includes(clienteName.toLowerCase()));
     if (client) {
       this.openClientDrawer(client);
     } else {
@@ -409,7 +409,7 @@ const App = {
     const tbody = document.getElementById('clients-table-tbody');
     if (!tbody) return;
 
-    const list = filteredList || FinoraState.clientes;
+    const list = filteredList || CapitalcopState.clientes;
 
     tbody.innerHTML = list.map(c => `
       <tr>
@@ -455,14 +455,14 @@ const App = {
     if (city === 'Todas') {
       this.renderClientesTable();
     } else {
-      const filtered = FinoraState.clientes.filter(c => c.ciudad === city);
+      const filtered = CapitalcopState.clientes.filter(c => c.ciudad === city);
       this.renderClientesTable(filtered);
     }
   },
 
   searchClients(query) {
     const q = query.toLowerCase().trim();
-    const filtered = FinoraState.clientes.filter(c => 
+    const filtered = CapitalcopState.clientes.filter(c => 
       c.nombre.toLowerCase().includes(q) || c.doc.includes(q)
     );
     this.renderClientesTable(filtered);
@@ -472,7 +472,7 @@ const App = {
     const tbody = document.getElementById('solicitudes-table-tbody');
     if (!tbody) return;
 
-    const list = filteredList || FinoraState.solicitudes;
+    const list = filteredList || CapitalcopState.solicitudes;
 
     tbody.innerHTML = list.map(s => {
       let badgeClass = 'badge-neutral';
@@ -534,14 +534,14 @@ const App = {
     if (status === 'Todas') {
       this.renderSolicitudesTable();
     } else {
-      const filtered = FinoraState.solicitudes.filter(s => s.estado === status);
+      const filtered = CapitalcopState.solicitudes.filter(s => s.estado === status);
       this.renderSolicitudesTable(filtered);
     }
   },
 
   searchSolicitudes(query) {
     const q = query.toLowerCase().trim();
-    const filtered = FinoraState.solicitudes.filter(s => 
+    const filtered = CapitalcopState.solicitudes.filter(s => 
       s.cliente.toLowerCase().includes(q) || s.doc.includes(q) || s.id.toLowerCase().includes(q)
     );
     this.renderSolicitudesTable(filtered);
@@ -551,7 +551,7 @@ const App = {
     const tbody = document.getElementById('creditos-table-tbody');
     if (!tbody) return;
 
-    tbody.innerHTML = FinoraState.creditos.map(cr => `
+    tbody.innerHTML = CapitalcopState.creditos.map(cr => `
       <tr>
         <td style="font-family:var(--font-mono); font-weight:700;">${cr.id}</td>
         <td>
@@ -581,7 +581,7 @@ const App = {
     const tbody = document.getElementById('cartera-table-tbody');
     if (!tbody) return;
 
-    tbody.innerHTML = FinoraState.cartera.map(c => `
+    tbody.innerHTML = CapitalcopState.cartera.map(c => `
       <tr>
         <td>
           <div class="table-user-cell">
@@ -616,7 +616,7 @@ const App = {
     const tbody = document.getElementById('recaudos-table-tbody');
     if (!tbody) return;
 
-    tbody.innerHTML = FinoraState.recaudos.map(r => `
+    tbody.innerHTML = CapitalcopState.recaudos.map(r => `
       <tr>
         <td style="font-family:var(--font-mono); font-size:0.8rem; color:var(--text-muted);">${r.hora}</td>
         <td>
@@ -647,7 +647,7 @@ const App = {
     const tbody = document.getElementById('conciliacion-table-tbody');
     if (!tbody) return;
 
-    const list = filteredList || FinoraState.conciliacion;
+    const list = filteredList || CapitalcopState.conciliacion;
 
     tbody.innerHTML = list.map(tx => `
       <tr>
@@ -680,14 +680,14 @@ const App = {
     if (status === 'Todos') {
       this.renderConciliacionTable();
     } else {
-      const filtered = FinoraState.conciliacion.filter(tx => tx.estado === status);
+      const filtered = CapitalcopState.conciliacion.filter(tx => tx.estado === status);
       this.renderConciliacionTable(filtered);
     }
   },
 
   searchReconciliation(query) {
     const q = query.toLowerCase().trim();
-    const filtered = FinoraState.conciliacion.filter(tx => 
+    const filtered = CapitalcopState.conciliacion.filter(tx => 
       tx.id.toLowerCase().includes(q) || tx.ref.toLowerCase().includes(q) || tx.cliente.toLowerCase().includes(q)
     );
     this.renderConciliacionTable(filtered);
@@ -697,7 +697,7 @@ const App = {
     const tbody = document.getElementById('desembolsos-table-tbody');
     if (!tbody) return;
 
-    tbody.innerHTML = FinoraState.desembolsos.map((d, index) => `
+    tbody.innerHTML = CapitalcopState.desembolsos.map((d, index) => `
       <tr>
         <td>
           <div class="table-user-cell">
@@ -734,7 +734,7 @@ const App = {
   },
 
   disperseIndividual(index) {
-    const d = FinoraState.desembolsos[index];
+    const d = CapitalcopState.desembolsos[index];
     d.estado = 'Desembolsado';
     d.badge = 'badge-success';
     this.renderDesembolsosTable();
@@ -742,7 +742,7 @@ const App = {
   },
 
   retryDisbursement(index) {
-    const d = FinoraState.desembolsos[index];
+    const d = CapitalcopState.desembolsos[index];
     d.estado = 'Procesando';
     d.badge = 'badge-info';
     this.renderDesembolsosTable();
@@ -758,10 +758,10 @@ const App = {
   // SCORING DRAWER & CREDIT APPROVAL
   // ==========================================================================
   openScoringDrawer(solicitudId) {
-    const s = FinoraState.solicitudes.find(item => item.id === solicitudId);
+    const s = CapitalcopState.solicitudes.find(item => item.id === solicitudId);
     if (!s) return;
 
-    FinoraState.selectedSolicitud = s;
+    CapitalcopState.selectedSolicitud = s;
 
     document.getElementById('drawer-scoring-client-name').innerText = `Evaluación: ${s.cliente}`;
     document.getElementById('drawer-scoring-sub').innerText = `Solicitud ${s.id} — CC ${s.doc}`;
@@ -811,8 +811,8 @@ const App = {
   },
 
   openApprovalModal() {
-    if (!FinoraState.selectedSolicitud) return;
-    const s = FinoraState.selectedSolicitud;
+    if (!CapitalcopState.selectedSolicitud) return;
+    const s = CapitalcopState.selectedSolicitud;
     document.getElementById('modal-app-client').innerText = `${s.cliente} (CC ${s.doc})`;
     document.getElementById('modal-app-monto').innerText = formatCOP(s.recMonto || s.monto);
 
@@ -820,12 +820,12 @@ const App = {
   },
 
   confirmApprovalAction() {
-    if (!FinoraState.selectedSolicitud) return;
-    const s = FinoraState.selectedSolicitud;
+    if (!CapitalcopState.selectedSolicitud) return;
+    const s = CapitalcopState.selectedSolicitud;
 
     // Update solicitud status in state
     s.estado = 'Aprobado';
-    FinoraState.recentActivity.unshift({
+    CapitalcopState.recentActivity.unshift({
       fecha: 'Hoy (Ahora)',
       operacion: 'Aprobación',
       cliente: s.cliente,
@@ -850,11 +850,11 @@ const App = {
   },
 
   rejectSolicitudCurrent() {
-    if (!FinoraState.selectedSolicitud) return;
-    FinoraState.selectedSolicitud.estado = 'Rechazado';
+    if (!CapitalcopState.selectedSolicitud) return;
+    CapitalcopState.selectedSolicitud.estado = 'Rechazado';
     this.renderSolicitudesTable();
     this.closeAllDrawers();
-    this.showToast(`Solicitud ${FinoraState.selectedSolicitud.id} rechazada según políticas de riesgo`, 'danger');
+    this.showToast(`Solicitud ${CapitalcopState.selectedSolicitud.id} rechazada según políticas de riesgo`, 'danger');
   },
 
   openReviewRequest() {
@@ -866,10 +866,10 @@ const App = {
   // CONCILIATION DRAWER & ACTIONS
   // ==========================================================================
   openConciliacionDrawer(txId) {
-    const tx = FinoraState.conciliacion.find(item => item.id === txId);
+    const tx = CapitalcopState.conciliacion.find(item => item.id === txId);
     if (!tx) return;
 
-    FinoraState.selectedTransaction = tx;
+    CapitalcopState.selectedTransaction = tx;
 
     document.getElementById('drawer-concil-id').innerText = `${tx.id} — ${tx.tipo}`;
     document.getElementById('drawer-concil-cliente').innerText = tx.cliente;
@@ -894,8 +894,8 @@ const App = {
   },
 
   conciliarManualmente() {
-    if (!FinoraState.selectedTransaction) return;
-    const tx = FinoraState.selectedTransaction;
+    if (!CapitalcopState.selectedTransaction) return;
+    const tx = CapitalcopState.selectedTransaction;
 
     tx.recibido = tx.esperado;
     tx.diferencia = 0;
@@ -915,8 +915,8 @@ const App = {
   },
 
   markAsDifference() {
-    if (!FinoraState.selectedTransaction) return;
-    const tx = FinoraState.selectedTransaction;
+    if (!CapitalcopState.selectedTransaction) return;
+    const tx = CapitalcopState.selectedTransaction;
     tx.estado = 'DIFERENCIA';
     tx.badge = 'badge-warning';
     this.renderConciliacionTable();
@@ -927,7 +927,7 @@ const App = {
   runAutoReconciliation() {
     this.showToast('Conectando con API de extractos Bancolombia...', 'info');
     setTimeout(() => {
-      FinoraState.conciliacion.forEach(tx => {
+      CapitalcopState.conciliacion.forEach(tx => {
         if (tx.estado === 'PENDIENTE') {
           tx.recibido = tx.esperado;
           tx.diferencia = 0;
@@ -944,12 +944,12 @@ const App = {
   // CLIENT DRAWER & PROFILE 360
   // ==========================================================================
   openClientDrawerById(clientId) {
-    const c = FinoraState.clientes.find(item => item.id === clientId);
+    const c = CapitalcopState.clientes.find(item => item.id === clientId);
     if (c) this.openClientDrawer(c);
   },
 
   openClientDrawer(client) {
-    FinoraState.selectedClient = client;
+    CapitalcopState.selectedClient = client;
     document.getElementById('drawer-cli-name').innerText = client.nombre;
     document.getElementById('drawer-cli-doc').innerText = `CC ${client.doc} — ${client.ciudad}`;
     this.openDrawer('drawer-cliente');
@@ -963,10 +963,10 @@ const App = {
     if (!slider) return;
 
     const monto = parseInt(slider.value, 10);
-    FinoraState.simulator.monto = monto;
+    CapitalcopState.simulator.monto = monto;
 
-    const meses = FinoraState.simulator.meses;
-    const tasa = FinoraState.simulator.tasaMensual;
+    const meses = CapitalcopState.simulator.meses;
+    const tasa = CapitalcopState.simulator.tasaMensual;
 
     // Amortización sistema francés
     // PMT = P * [ r * (1 + r)^n ] / [ (1 + r)^n - 1 ]
@@ -984,13 +984,13 @@ const App = {
   selectSimulatorTerm(months, btn) {
     document.querySelectorAll('.term-buttons-group .term-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    FinoraState.simulator.meses = months;
+    CapitalcopState.simulator.meses = months;
     this.updateSimulator();
   },
 
   requestCreditFromSimulator() {
-    const monto = FinoraState.simulator.monto;
-    const meses = FinoraState.simulator.meses;
+    const monto = CapitalcopState.simulator.monto;
+    const meses = CapitalcopState.simulator.meses;
     this.showToast(`Solicitud de microcrédito por ${formatCOP(monto)} a ${meses} meses iniciada con validación biométrica`, 'success');
   },
 
@@ -1023,7 +1023,7 @@ const App = {
     const monto = parseInt(montoStr.replace(/[^0-9]/g, '')) || 350000;
     const metodo = document.getElementById('man-rec-metodo').value;
 
-    FinoraState.recaudos.unshift({
+    CapitalcopState.recaudos.unshift({
       hora: '11:15 AM',
       cliente: cliente,
       credito: '#FN-MANUAL',
@@ -1044,7 +1044,7 @@ const App = {
   },
 
   confirmDisperseAll() {
-    FinoraState.desembolsos.forEach(d => {
+    CapitalcopState.desembolsos.forEach(d => {
       if (d.estado === 'Programado' || d.estado === 'Procesando') {
         d.estado = 'Desembolsado';
         d.badge = 'badge-success';
@@ -1061,7 +1061,7 @@ const App = {
     const names = ['Mariana Restrepo', 'Julián Ospina', 'Valentina Díaz', 'Camilo Sampedro'];
     const randomName = names[Math.floor(Math.random() * names.length)];
 
-    FinoraState.solicitudes.unshift({
+    CapitalcopState.solicitudes.unshift({
       id: newId,
       cliente: randomName,
       doc: '1.028.910.442',
@@ -1076,7 +1076,7 @@ const App = {
       recPlazo: 6,
       canal: 'App Android',
       canalIcon: 'smartphone',
-      canalCompleto: 'App Móvil FINORA v2.4 (Android 14)',
+      canalCompleto: 'App Móvil CAPITALCOP v2.4 (Android 14)',
       ciudad: 'Bogotá D.C.',
       ubicacion: 'Bogotá D.C. — Salitre (Av. Esperanza)',
       coords: '4.6530° N, -74.1080° W',
@@ -1108,12 +1108,12 @@ const App = {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.setAttribute('href', url);
-    link.setAttribute('download', `FINORA_${moduleName.toUpperCase()}_20260902.csv`);
+    link.setAttribute('download', `CAPITALCOP_${moduleName.toUpperCase()}_20260902.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
 
-    this.showToast(`Archivo CSV exportado: FINORA_${moduleName.toUpperCase()}.csv`, 'success');
+    this.showToast(`Archivo CSV exportado: CAPITALCOP_${moduleName.toUpperCase()}.csv`, 'success');
   },
 
   generateReportFile(reportTitle) {
@@ -1132,11 +1132,11 @@ const App = {
 
     // If typing an ID or client, navigate to respective view
     if (q.startsWith('fn-') || q.startsWith('tx-')) {
-      if (q.startsWith('tx-') && FinoraState.currentView !== 'conciliacion') {
+      if (q.startsWith('tx-') && CapitalcopState.currentView !== 'conciliacion') {
         this.navigateTo('conciliacion');
         const input = document.getElementById('search-reconciliation-input');
         if (input) { input.value = q; this.searchReconciliation(q); }
-      } else if (q.startsWith('fn-') && FinoraState.currentView !== 'solicitudes') {
+      } else if (q.startsWith('fn-') && CapitalcopState.currentView !== 'solicitudes') {
         this.navigateTo('solicitudes');
         const input = document.getElementById('search-solicitudes-input');
         if (input) { input.value = q; this.searchSolicitudes(q); }
@@ -1181,7 +1181,7 @@ const App = {
   },
 
   showHelpModal() {
-    this.showToast('Mesa de soporte FINORA: soporte@finora.co | PBX: (601) 745-9000 Bogotá', 'info');
+    this.showToast('Mesa de soporte CAPITALCOP: soporte@capitalcop.co | PBX: (601) 745-9000 Bogotá', 'info');
   },
 
   // ==========================================================================
